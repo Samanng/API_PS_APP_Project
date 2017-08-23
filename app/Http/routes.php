@@ -17,13 +17,14 @@ Route::get('/', function () {
 
 Route::group(array('prefix'=>'users'), function(){
     Route::get('view','RegisterUserController@index');
-    Route::post('create','RegisterUserController@store');
+    Route::post('register','RegisterUserController@register');
 });
+
 Route::group(array('prefix'=>'posters'), function(){
     Route::post('login','PostersController@login');
-    Route::post('create','PostersController@store');
-    Route::get('show/{id}','PostsController@show');
+    Route::post('register','PostersController@register');
 });
+
 Route::group(array('prefix'=>'posts'), function(){
     Route::get('show/{id}','PostsController@show');
 });
