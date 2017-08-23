@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Posters;
+use App\Posts;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -47,7 +48,15 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Posts::find($id);
+//        dd($post);
+        if($post){
+            return response()->json($post);
+        }else{
+            return response(array(
+                'message' =>'No record',
+            ),200);
+        }
     }
 
     /**
