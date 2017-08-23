@@ -19,3 +19,8 @@ Route::group(array('prefix'=>'users'), function(){
 	Route::get('view','RegisterUserController@index');
 	Route::post('create','RegisterUserController@store');
 });
+
+Route::group(array('prefix'=>'posters'), function(){
+    Route::get('view','PostersController@index');
+    Route::post('create','PostersController@store');
+});
