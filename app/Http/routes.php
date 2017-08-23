@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(array('prefix'=>'users'), function(){
+	Route::get('view','RegisterUserController@index');
+	Route::post('create','RegisterUserController@store');
+});
