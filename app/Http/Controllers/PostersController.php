@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Posters;
+use Validator;
+use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Posters;
 use Illuminate\Foundation\Validation;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
-use DB;
 use Rule;
 use App\file;
 use Illuminate\Support\Facades\Crypt;
@@ -21,9 +22,41 @@ class PostersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+//    cp .env.example .env
+//    php artisan key:generate when laravel No supported encrypter found. The cipher and / or key length are invalid
+
     public function index()
     {
         echo"YES Yes yes!!!!";
+    }
+    //function for login
+    public function login(Request $request){
+        $validator = Validator::make($request->all(), [//check validation required
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors'=>$validator->errors()]);//return message error
+        }else{
+            $email = $request->email;
+            $password = $request->password;
+            $login = DB::table('posters')->select('*')->where([
+                ['email','=',$email],
+                ['password','=',sha1($password)]
+            ])->get();
+            if(count($login) > 0){//check is true or not
+                return response()->json(array(
+                    'status'=>"success",
+                    'message'=> 'Login successfully!!',
+                    'data'=>$login
+                ));
+            }else{
+                return response()->json(array(
+                    'status'=> "error",
+                    'message'=> 'Login not success, Please try again!!'
+                ));
+            }
+        }
     }
 
     /**

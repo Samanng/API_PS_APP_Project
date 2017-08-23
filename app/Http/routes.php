@@ -16,11 +16,15 @@ Route::get('/', function () {
 });
 
 Route::group(array('prefix'=>'users'), function(){
-	Route::get('view','RegisterUserController@index');
-	Route::post('create','RegisterUserController@store');
+    Route::get('view','RegisterUserController@index');
+    Route::post('register','RegisterUserController@register');
 });
 
 Route::group(array('prefix'=>'posters'), function(){
-    Route::get('view','PostersController@index');
-    Route::post('create','PostersController@store');
+    Route::post('login','PostersController@login');
+    Route::post('register','PostersController@register');
+});
+
+Route::group(array('prefix'=>'posts'), function(){
+    Route::get('show/{id}','PostsController@show');
 });

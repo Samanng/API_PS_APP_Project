@@ -42,7 +42,7 @@ class RegisterUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function register(Request $request)
     {
         ///set all field are required
         $validator = Validator::make($request->all(), [
