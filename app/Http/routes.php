@@ -14,3 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(array('prefix'=>'users'), function(){
+    Route::get('view','RegisterUserController@index');
+    Route::post('register','RegisterUserController@register');
+});
+
+Route::group(array('prefix'=>'posters'), function(){
+    Route::post('login','PostersController@login');
+    Route::post('register','PostersController@register');
+});
+
+Route::group(array('prefix'=>'posts'), function(){
+    Route::get('show/{id}','PostsController@show');
+});
