@@ -1,8 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Comments;
+use App\Likes;
 use Illuminate\Http\Request;
+
+use Illuminate\Foundation\Validation;
+use Rule;
+use Validator;
+
+use DB;
 
 use App\Http\Requests;
 
@@ -19,68 +26,28 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * This method is used to list categories
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
-    {
-        //
+    public function categoriesList(){
+        $categories = \DB::table("categories")->select("*")->get();
+        if($categories){
+            return response()->json(array('status' => "success",'categories' => $categories));
+        }else{
+            return response()->json(array('status' => 'fail'));
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * This method is use to list all product in each category
+     * @param $catId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
-    {
-        //
+    public function productEachCat($catId){
+        $category = \DB::table("posts")->select("*")->where("posts.categories_id","=",$catId)->get();
+        if($category){
+            return response()->json(array('status' => 'success','category' => $category));
+        }else{  return response()->json(array('status' => 'fail'));}
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
