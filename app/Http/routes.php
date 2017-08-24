@@ -21,10 +21,19 @@ Route::group(array('prefix'=>'users'), function(){
 });
 
 Route::group(array('prefix'=>'posters'), function(){
+    Route::get('viewall','PostersController@index');
     Route::post('login','PostersController@login');
     Route::post('register','PostersController@register');
 });
 
 Route::group(array('prefix'=>'posts'), function(){
+    Route::get('viewall','PostsController@index');
+    Route::post('store','PostsController@store');
     Route::get('show/{id}','PostsController@show');
+    Route::put('update/{id}','PostsController@update');
+});
+
+Route::group(array('prefix'=>'favorites'),function(){
+    Route::get('viewall','FavoritesController@index');
+    Route::post('store','FavoritesController@store');
 });

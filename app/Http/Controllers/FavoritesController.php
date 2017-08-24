@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use DB;
+use App\Favorites;
 use App\Http\Requests;
 
 class FavoritesController extends Controller
@@ -15,7 +16,19 @@ class FavoritesController extends Controller
      */
     public function index()
     {
-        //
+//        echo "Hello oun";
+        $get_all_poster = DB::table('favorites')
+            ->join("users", "favorites.users_id", "=", "users.id")
+            ->join("posts","favorites.posts_id", "=", "posts.id")
+            ->join("posters","posts.posters_id","=","posters.id")
+            ->where('posts.pos_status', '=', 1)
+            ->select('posters.id','posters.username','posts.pos_title', 'posts.pos_image', 'posts.pos_description', 'posts.pos_telephone','posts.pos_address','posts.price','posts.discount')
+            ->get();
+        if($get_all_poster == true){
+            return response()->json($get_all_poster);
+        }else{
+            echo "You data don't have any record!";
+        }
     }
 
     /**
@@ -36,7 +49,19 @@ class FavoritesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $favorite = new Favorites();
+        $favorite->users_id = $request->input('users_id');
+        $favorite->posts_id = $request->input('posts_id');
+        if($request->input('users_id')==""){
+            return response()->json(['status'=> 'error','user ID' => 'Is Empty']);
+        }elseif($request->input('posts_id')==""){
+            return response()->json(['status'=> 'error','post ID' => 'Is Empty']);
+        }elseif($favorite){
+            $favorite->save();
+            return response()->json([$favorite,'status'=> 'success']);
+        }else{
+            return response()->json(['status'=> 'error']);
+        }
     }
 
     /**

@@ -27,10 +27,18 @@ class PostersController extends Controller
 
     public function index()
     {
-        echo"YES Yes yes!!!!";
+        $get_all_poster = DB::table('posters')
+            ->where('status', '=', 1)
+            ->get();
+        if($get_all_poster == true){
+            return response()->json($get_all_poster);
+        }else{
+            echo "You data don't have any record!";
+        }
     }
     //function for login
     public function login(Request $request){
+        dd($request);
         $validator = Validator::make($request->all(), [//check validation required
             'email' => 'required|email',
             'password' => 'required',
@@ -75,8 +83,10 @@ class PostersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function register(Request $request)
     {
+//        $til = $request->input('username');
+//        dd($til);
         ///set all field are required
         $validator = Validator::make($request->all(), [
             'email'    => 'required|email|unique:posters',
