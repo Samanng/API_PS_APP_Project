@@ -71,16 +71,33 @@ class RegisterUserController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function userProfile($id)
     {
-        //
+        $users = DB::table('users')
+            ->select('users.id','users.username','users.image','users.email','users.password','users.address')
+            ->where('users.id',$id)->get();
+        if($users){
+            return response()->json(array('status' => 'success', 'posterProfile' => $users,));
+        }else{
+            return response(array(
+                'status' => 'failed','message' =>'No record', ),200);
+        }
     }
+    public function viewUserFavorite($id)
+    {
+       $user = DB::table('users')
+           ->join("favorites", "users.id", "=", "favorites.users_id")
+           ->join("posts", "posts.id", "=", "favorites.posts_id")
+           ->select('posts.id','posts.posters_id','posts.pos_image','posts.pos_title')
+           ->where('users.id',$id)
+           ->get();
+        if($user){
+            return response()->json(array('status' => 'success', 'viewUserFavorite' => $user,));
+        }else{
+            return response(array(
+                'status' => 'failed','message' =>'No record', ),200);
+        }
+           }
 
     /**
      * Show the form for editing the specified resource.
@@ -104,6 +121,7 @@ class RegisterUserController extends Controller
     {
         //
     }
+
 
     /**
      * Remove the specified resource from storage.
