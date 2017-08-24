@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5df02b12-c5a8-4fde-af94-954e6a90ccdb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PostersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PostersController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PostsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PostsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="5df02b12-c5a8-4fde-af94-954e6a90ccdb" name="Default" comment="" />
     <ignored path="API_PS_APP_Project.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,10 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PostersController.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PostersController.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostersController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="66" selection-start="2056" selection-end="2111" vertical-scroll-proportion="-3.1666667" vertical-offset="1876" max-vertical-offset="5103">
+            <state line="108" column="32" selection-start="3401" selection-end="3401" vertical-scroll-proportion="0.26895306" vertical-offset="2767" max-vertical-offset="5103">
               <folding>
                 <element signature="e#40#54#0" expanded="true" />
               </folding>
@@ -69,10 +63,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RegisterUserController.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="RegisterUserController.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="18" selection-start="2931" selection-end="2931" vertical-scroll-proportion="0.46389893" vertical-offset="2254" max-vertical-offset="3834">
+            <state line="62" column="30" selection-start="1751" selection-end="1751" vertical-scroll-proportion="-21.166666" vertical-offset="1039" max-vertical-offset="3834">
               <folding>
                 <element signature="e#40#54#0" expanded="true" />
               </folding>
@@ -222,68 +216,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API_PS_APP_Project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API_PS_APP_Project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Http" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API_PS_APP_Project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API_PS_APP_Project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Http" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Middleware" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API_PS_APP_Project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API_PS_APP_Project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Http" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -475,18 +407,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostersController.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="66" selection-start="2056" selection-end="2111" vertical-scroll-proportion="-3.1666667" vertical-offset="1876" max-vertical-offset="5103">
+        <state line="62" column="30" selection-start="1751" selection-end="1751" vertical-scroll-proportion="-21.166666" vertical-offset="1039" max-vertical-offset="3834">
           <folding>
             <element signature="e#40#54#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="18" selection-start="2931" selection-end="2931" vertical-scroll-proportion="0.46389893" vertical-offset="2254" max-vertical-offset="3834">
+        <state line="108" column="32" selection-start="3401" selection-end="3401" vertical-scroll-proportion="0.26895306" vertical-offset="2767" max-vertical-offset="5103">
           <folding>
             <element signature="e#40#54#0" expanded="true" />
           </folding>
