@@ -163,74 +163,11 @@ class PostsController extends Controller
 
     }
 
-    /**
-     * This method is used to list categories
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function categoriesList(){
-        $categories = \DB::table("categories")->select("*")->get();
-        if($categories){
-            return response()->json(array('status' => "success",'categories' => $categories));
-        }else{
-            return response()->json(array('status' => 'fail'));
-        }
-    }
 
-    /**
-     * This method is use to list all product in each category
-     * @param $catId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function productEachCat($catId){
-        $category = \DB::table("posts")->select("*")->where("posts.categories_id","=",$catId)->get();
-        if($category){
-            return response()->json(array('status' => 'success','category' => $category));
-        }else{  return response()->json(array('status' => 'fail'));}
-    }
 
-    /**
-     * This method is used to insert comment of post
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function commentPost(Request $request){
-        $validator = Validator::make($request->all(),[
-            'message' => 'required',
-        ]);
 
-        if ($validator->passes()){
-            $cmt = new Comments();
 
-            $cmt->users_id = $request->input('users_id');
-            $cmt->posts_id = $request->input('posts_id');
-            $cmt->message = $request->input('message');
-            $cmt->save();
-            return response()->json(array('status' => 'success'));
 
-        }else{return response()->json(array('status' => 'fail','errors'=>$validator->errors()));}
-    }
-
-    /**
-     * @param Request $request
-     * @param $userId
-     * @param $postId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function checkLike(Request $request,$userId,$postId){
-        $like = Likes::where(array('users_id' => $userId,"posts_id" => $postId))->first();
-        if($like){
-            $like->like_status = 0 ;
-            $like->save();
-            return response()->json(array('status' => 'success'));
-        }else{
-            $like = new Likes();
-            $like->users_id = $userId;
-            $like->posts_id = $postId;
-            $like->like_status = 1;
-            $like->save();
-            return response()->json(array('status' => 'success'));
-        }
-    }
 
 
 
