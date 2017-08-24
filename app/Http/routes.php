@@ -26,5 +26,10 @@ Route::group(array('prefix'=>'posters'), function(){
 });
 
 Route::group(array('prefix'=>'posts'), function(){
+    Route::get('search/{param}','PostsController@search');// not complete yet
+    Route::get("categories","PostsController@categoriesList");
+    Route::get("listCategory/{catId}","PostsController@productEachCat");
+    Route::post("comment","PostsController@commentPost");
+    Route::get("checkLike/{userId}/{postId}","PostsController@checkLike");
     Route::get('show/{id}','PostsController@show');
 });

@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Rule;
 use App\file;
+use App\Posts;
 use Illuminate\Support\Facades\Crypt;
 
 class PostersController extends Controller
@@ -149,4 +150,5 @@ class PostersController extends Controller
     {
         //
     }
+
 }
