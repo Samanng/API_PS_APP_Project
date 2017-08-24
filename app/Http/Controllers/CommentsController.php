@@ -2,7 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Comments;
+use App\Likes;
 use Illuminate\Http\Request;
+
+use Illuminate\Foundation\Validation;
+use Rule;
+use Validator;
+
+use DB;
 
 use App\Http\Requests;
 
@@ -19,68 +27,24 @@ class CommentsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * This method is used to insert comment of post
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
-    {
-        //
-    }
+    public function commentPost(Request $request){
+        $validator = Validator::make($request->all(),[
+            'message' => 'required',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        if ($validator->passes()){
+            $cmt = new Comments();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+            $cmt->users_id = $request->input('users_id');
+            $cmt->posts_id = $request->input('posts_id');
+            $cmt->message = $request->input('message');
+            $cmt->save();
+            return response()->json(array('status' => 'success'));
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        }else{return response()->json(array('status' => 'fail','errors'=>$validator->errors()));}
     }
 }
