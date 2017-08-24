@@ -51,7 +51,7 @@ class RegisterUserController extends Controller
 
         //if validation = false show message error
         if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()]);
+            return response()->json(array('status' => 'fail','errors'=>$validator->errors()));
         }else{
             $photo = $request->file('image');
             $destinationPath = 'images/users/'; // path to save to, has to exist and be writeable
@@ -67,7 +67,7 @@ class RegisterUserController extends Controller
             $user->save();
 
             //response message
-            return response()->json([$user,'type'=> 'success']);
+            return response()->json(array('status'=> 'success','users' => $user));
         }
     }
 
@@ -77,10 +77,10 @@ class RegisterUserController extends Controller
             ->select('users.id','users.username','users.image','users.email','users.password','users.address')
             ->where('users.id',$id)->get();
         if($users){
-            return response()->json(array('status' => 'success', 'posterProfile' => $users,));
+            return response()->json(array('status' => 'success', 'posterProfile' => $users));
         }else{
-            return response(array(
-                'status' => 'failed','message' =>'No record', ),200);
+            return response()->json(array(
+                'status' => 'fail','message' =>'No record', ),200);
         }
     }
     public function viewUserFavorite($id)
@@ -92,10 +92,10 @@ class RegisterUserController extends Controller
            ->where('users.id',$id)
            ->get();
         if($user){
-            return response()->json(array('status' => 'success', 'viewUserFavorite' => $user,));
+            return response()->json(array('status' => 'success', 'users' => $user,));
         }else{
-            return response(array(
-                'status' => 'failed','message' =>'No record', ),200);
+            return response()->json(array(
+                'status' => 'fail','message' =>'No record', ),200);
         }
            }
 

@@ -41,7 +41,7 @@ class PostsController extends Controller
         ]);
         // if validation it not yet fill
         if ($validator->fails()) {
-            return response()->json(['errors'=>$validator->errors()]);//return message error
+            return response()->json(array('status' => 'fail','errors'=>$validator->errors()));//return message error
         }else{
             //for upload image
             $pro_pic = $request->file('post_image');// name of input file
@@ -61,13 +61,13 @@ class PostsController extends Controller
 
                 );
             if($post == true){
-                return response(array(
+                return response()->json(array(
                     'status' => 'success',
                     'message' =>'post create successfully',
                 ),200);
             }else{
-                return response(array(
-                    'status' => 'failed',
+                return response()->json(array(
+                    'status' => 'fail',
                     'message' =>'post create failed',
                 ),400);
             }
@@ -80,7 +80,7 @@ class PostsController extends Controller
         if($post){
             return response()->json(array('status' => 'success', 'posts' => $post));
         }else{
-            return response(array(
+            return response()->json(array(
                 'status' => 'fail',
                 'message' =>'No record',
             ),200);
@@ -125,11 +125,13 @@ class PostsController extends Controller
             ])
             ->update(['posts.pos_status' => 0]);
         if($update_status){
-            return response(array(
+            return response()->json(array(
+                'status' => 'success',
                 'message' =>'post deleted successfully',
             ),200);
         }else{
-            return response(array(
+            return response()->json(array(
+                'status' => 'fail',
                 'message' =>'post delete failed',
             ),200);
         }

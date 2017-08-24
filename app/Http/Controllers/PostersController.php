@@ -37,7 +37,7 @@ class PostersController extends Controller
             'password' => 'required',
         ]);
         if ($validator->fails()) {
-            return response()->json(['errors'=>$validator->errors()]);//return message error
+            return response()->json(array('status' => 'fail','errors'=>$validator->errors()));//return message error
         }else{
             $email = $request->email;
             $password = $request->password;
@@ -76,9 +76,9 @@ class PostersController extends Controller
             ->select('posts.posters_id','posts.id','image','posts.pos_image','posts.pos_description')
             ->where('posters.id',$id)->get();
         if($poster){
-            return response()->json(array('status' => 'success', 'posterPost' => $poster,));
+            return response()->json(array('status' => 'success', 'posterpost' => $poster,));
         }else{
-            return response(array('message' =>'No record',),200);
+            return response()->json(array('status' => 'fail','message' =>'No record',),200);
         }
     }
     public function posterProfile($id)
@@ -87,9 +87,9 @@ class PostersController extends Controller
             ->select('posters.id','posters.username','posters.image','posters.email','posters.password','posters.address')
             ->where('posters.id',$id)->get();
         if($poster){
-            return response()->json(array('status' => 'success', 'posterProfile' => $poster,));
+            return response()->json(array('status' => 'success', 'posterprofile' => $poster,));
         }else{
-            return response(array('message' =>'No record'),200);
+            return response()->json(array('status' => 'fail','message' =>'No record'),200);
         }
     }
 
@@ -125,7 +125,7 @@ class PostersController extends Controller
             $poster->save();
 
             //response message
-            return response()->json([$poster,'type'=> 'success']);
+            return response()->json(array('status' => 'success','poster' => $poster));
         }
     }
 
