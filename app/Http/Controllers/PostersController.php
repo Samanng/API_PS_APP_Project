@@ -66,7 +66,30 @@ class PostersController extends Controller
      */
     public function create()
     {
-        //
+
+    }
+    public function viewPosterPost($id)
+    {
+        $poster = DB::table('posters')
+            ->join("posts", "posters.id", "=", "posts.posters_id")
+            ->select('posts.posters_id','posts.id','image','posts.pos_image','posts.pos_description')
+            ->where('posters.id',$id)->get();
+        if($poster){
+            return response()->json(array('status' => 'success', 'posterPost' => $poster,));
+        }else{
+            return response(array('message' =>'No record',),200);
+        }
+    }
+    public function posterProfile($id)
+    {
+        $poster = DB::table('posters')
+            ->select('posters.id','posters.username','posters.image','posters.email','posters.password','posters.address')
+            ->where('posters.id',$id)->get();
+        if($poster){
+            return response()->json(array('status' => 'success', 'posterProfile' => $poster,));
+        }else{
+            return response(array('message' =>'No record'),200);
+        }
     }
 
     /**
@@ -126,17 +149,25 @@ class PostersController extends Controller
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function updatePosterInfo(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'description' => 'required',
+        ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()]);//return message error
+        }else{
+            $update_post = DB::table('posters')
+                ->where([
+                    ['posters.id', '=', $id],
+                ])
+                ->update([
+                'description' => $request
+                ->input('description')]);
+            return response(array( 'status' => 'success', 'message' =>'post updated successfully',
+            ),200);
+
+        }
     }
 
     /**
