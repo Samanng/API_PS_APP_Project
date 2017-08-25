@@ -28,6 +28,7 @@ class CommentsController extends Controller
 
     /**
      * This method is used to insert comment of post
+     * @author sreymom
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -47,4 +48,53 @@ class CommentsController extends Controller
 
         }else{return response()->json(array('status' => 'fail','errors'=>$validator->errors()));}
     }
+
+    public function viewComment($posId){
+
+        $result = \DB::select(  "
+        
+            select 
+            (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
+            (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
+            (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
+            username,image,covers,
+            posts.*
+            from ps_app_db.posters
+            inner join ps_app_db.posts
+            on posters.id = posts.posters_id
+            where posts.id = $posId 
+            
+      ");
+
+        if($result){
+            return response()->json(array('status' => 'success', 'posts' => $result));
+        }else{
+            return response()->json(array('status' => 'false'));
+        }
+
+    }
+
+    /**
+     * this method is used to list all comment for each post
+     * @author sreymom
+     * @param $postId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listComment($postId){
+
+        $result = \DB::select(  "select users.username,users.image, comments.message,comments.created_at from comments
+        inner join posts on comments.posts_id = posts.id
+        inner join users on users.id = comments.users_id
+        where comments.posts_id = $postId
+            
+      ");
+
+        if($result){
+            return response()->json(array('status' => 'success', 'posts' => $result));
+        }else{
+            return response()->json(array('status' => 'false'));
+        }
+
+    }
+
 }

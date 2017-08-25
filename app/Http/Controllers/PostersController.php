@@ -12,7 +12,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Rule;
-use App\file;
+use File;
 use App\Posts;
 use Illuminate\Support\Facades\Crypt;
 
@@ -171,15 +171,61 @@ class PostersController extends Controller
         }
     }
 
+
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * This method is used to change cover image of poster
+     * @author sreymom
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
-    {
-        //
+
+    public function changeCover(Request $request,$id){
+        $userID = Posters::find($id);
+
+        if($request->file('covers')) {
+            File::delete('images/posters/'.$userID->covers);
+
+            $image = $request->file('covers');
+            $fileName = $image->getClientOriginalName();
+            $image->move('images/posters/', $fileName);
+            $userID->covers = $fileName;
+            $userID->save();
+
+            return response()->json(array('status' => 'success'));
+        }else{
+            return response()->json(array('status' => 'fail'));
+        }
     }
+
+    /**
+     * This method is used to change profile image of poster
+     * @author sreymom
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function profile(Request $request,$id){
+
+        $userID = Posters::find($id);
+        //$userID = new Users();
+
+        if($request->file('image')) {
+            File::delete('images/posters/'.$userID->image);
+
+            $image = $request->file('image');
+            $fileName = $image->getClientOriginalName();
+            $image->move('images/posters/', $fileName);
+            $userID->image = $fileName;
+            $userID->save();
+
+            return response()->json(array('status' => 'success'));
+        }else{
+            return response()->json(array('status' => 'fail'));
+        }
+
+    }
+
 
 }

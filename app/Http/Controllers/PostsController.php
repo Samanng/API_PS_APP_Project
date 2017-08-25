@@ -139,21 +139,29 @@ class PostsController extends Controller
     }
 
 
-//    -----------------------------------------------------mom------------------------------------------------------
     /**
      * This method is used to search post
+     * @author Sreymom
      * @param $param
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function search($param){
 
-        $result = \DB::table('posts')
-            ->select('posters.username','posts.*','posters.image' )
-            ->join('posters', 'posts.posters_id', '=', 'posters.id')
-            ->where('posts.pos_title','like',$param.'%')
-            ->orWhere('posters.username', 'like',$param.'%')
-            ->where('posts.pos_status','=',1)
-            ->get();
+        $result = \DB::select('
+        
+            select 
+            (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
+            (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
+            (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
+            username,image,covers,
+            posts.*
+            from ps_app_db.posters
+            inner join ps_app_db.posts
+            on posters.id = posts.posters_id
+            where (posters.username like "'.$param.'%" or posts.pos_title like "'.$param.'%") and posts.pos_status = 1
+            
+        ');
 
         if($result){
             return response()->json(array('status' => 'success', 'posts' => $result));
@@ -161,9 +169,26 @@ class PostsController extends Controller
             return response()->json(array('status' => 'false'));
         }
 
+
     }
 
-
+    //    public function search($param){
+//
+//        $result = \DB::table('posts')
+//            ->select('posters.username','posts.*','posters.image' )
+//            ->join('posters', 'posts.posters_id', '=', 'posters.id')
+//            ->where('posts.pos_title','like',$param.'%')
+//            ->orWhere('posters.username', 'like',$param.'%')
+//            ->where('posts.pos_status','=',1)
+//            ->get();
+//
+//        if($result){
+//            return response()->json(array('status' => 'success', 'posts' => $result));
+//        }else{
+//            return response()->json(array('status' => 'false'));
+//        }
+//
+//    }
 
 
 

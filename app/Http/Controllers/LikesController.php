@@ -27,6 +27,8 @@ class LikesController extends Controller
     }
 
     /**
+     * This method is user to like and unlike post
+     * @author sreymom
      * @param Request $request
      * @param $userId
      * @param $postId
