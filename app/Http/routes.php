@@ -32,6 +32,15 @@ Route::group(array('prefix'=>'posters'), function(){
 
 Route::group(array('prefix'=>'posts'), function(){
     Route::get('viewall','PostsController@index');
+    Route::get('search/{param}','PostsController@search');// not complete yet
+
+    Route::get("categories","CategoriesController@categoriesList");
+    Route::get("listCategory/{catId}","CategoriesController@productEachCat");
+
+    Route::post("comment","CommentsController@commentPost");
+
+    Route::get("checkLike/{userId}/{postId}","LikesController@checkLike");
+
     Route::get('postDetail/{id}','PostsController@postDetail');
     Route::put('update/{id}','PostsController@update');
     Route::post('createPost','PostsController@create_post');
@@ -41,5 +50,6 @@ Route::group(array('prefix'=>'posts'), function(){
 Route::group(array('prefix'=>'favorites'),function(){
     Route::get('viewall','FavoritesController@index');
     Route::post('store','FavoritesController@store');
+
 
 });

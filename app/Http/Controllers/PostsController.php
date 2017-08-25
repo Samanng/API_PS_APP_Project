@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Validation;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use App\Posters;
 use App\Posts;
 use Validator;
+use App\Comments;
+use App\Likes;
+use Rule;
+use DB;
 use App\Http\Requests;
 use App\Users;
 use App\file;
-use DB;
 
 
 class PostsController extends Controller
@@ -53,7 +55,7 @@ class PostsController extends Controller
         ]);
         // if validation it not yet fill
         if ($validator->fails()) {
-            return response()->json(['errors'=>$validator->errors()]);//return message error
+            return response()->json(array('status' => 'fail','errors'=>$validator->errors()));//return message error
         }else{
             //for upload image
             $pro_pic = $request->file('post_image');// name of input file
@@ -72,13 +74,13 @@ class PostsController extends Controller
                     'posts.discount' => $request->input('discount')]
                 );
             if($post == true){
-                return response(array(
+                return response()->json(array(
                     'status' => 'success',
                     'message' =>'post create successfully',
                 ),200);
             }else{
-                return response(array(
-                    'status' => 'failed',
+                return response()->json(array(
+                    'status' => 'fail',
                     'message' =>'post create failed',
                 ),400);
             }
@@ -91,7 +93,8 @@ class PostsController extends Controller
         if($post){
             return response()->json(array('status' => 'success', 'posts' => $post));
         }else{
-            return response(array(
+            return response()->json(array(
+                'status' => 'fail',
                 'message' =>'No record',
             ),200);
         }
@@ -191,14 +194,50 @@ class PostsController extends Controller
             ])
             ->update(['posts.pos_status' => 0]);
         if($update_status){
-            return response(array(
+            return response()->json(array(
+                'status' => 'success',
                 'message' =>'post deleted successfully',
             ),200);
         }else{
-            return response(array(
+            return response()->json(array(
+                'status' => 'fail',
                 'message' =>'post delete failed',
             ),200);
         }
 
     }
+
+
+//    -----------------------------------------------------mom------------------------------------------------------
+    /**
+     * This method is used to search post
+     * @param $param
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search($param){
+
+        $result = \DB::table('posts')
+            ->select('posters.username','posts.*','posters.image' )
+            ->join('posters', 'posts.posters_id', '=', 'posters.id')
+            ->where('posts.pos_title','like',$param.'%')
+            ->orWhere('posters.username', 'like',$param.'%')
+            ->where('posts.pos_status','=',1)
+            ->get();
+
+        if($result){
+            return response()->json(array('status' => 'success', 'posts' => $result));
+        }else{
+            return response()->json(array('status' => 'false'));
+        }
+
+    }
+
+
+
+
+
+
+
+
+
 }
