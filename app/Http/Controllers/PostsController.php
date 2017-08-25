@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\Validator;
-//use Illuminate\Foundation\Validation;
-//use Illuminate\Support\Facades\Input;
+use Illuminate\Foundation\Validation;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
+use App\Posters;
 use App\Posts;
+use Validator;
+use App\Http\Requests;
 use App\Users;
 use App\file;
-//use Rule;
 use DB;
 
 
@@ -43,47 +43,53 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create_post(Request $request)
     {
-        //
-    }
+        //for validate
+        $validator = Validator::make($request->all(), [
+            'pos_title' => 'required',
+            'pos_description' => 'required',
+            'pos_telephone'=>'required',
+        ]);
+        // if validation it not yet fill
+        if ($validator->fails()) {
+            return response()->json(['errors'=>$validator->errors()]);//return message error
+        }else{
+            //for upload image
+            $pro_pic = $request->file('post_image');// name of input file
+            $imgPath = 'images/posts';    //create varriable for path
+            $fileName = $pro_pic->getClientOriginalName();//originalname that it was uploaded with
+            $pro_pic->move($imgPath,$fileName);
+            $post = DB::table('posts')
+            ->insert(
+                    ['posts.posters_id' => $request->input('posters_id'),
+                    'posts.categories_id' => $request->input('categories_id'),
+                    'posts.pos_title' => $request->input('pos_title'),
+                    'posts.pos_description' => $request->input('pos_description'),
+                    'posts.pos_telephone' => $request->input('pos_telephone'),
+                    'posts.pos_image' => $fileName,
+                    'posts.price' => $request->input('price'),
+                    'posts.discount' => $request->input('discount')]
+                );
+            if($post == true){
+                return response(array(
+                    'status' => 'success',
+                    'message' =>'post create successfully',
+                ),200);
+            }else{
+                return response(array(
+                    'status' => 'failed',
+                    'message' =>'post create failed',
+                ),400);
+            }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-//        dd($request);
-//        $post = DB::table('posts')
-//            ->join("posters", "posts.posters_id", "=", "posters.id")
-//            ->join("categories","posts.categories_id", "=", "categories.id");
-//        $post->posters_id = $request->input('posters_id');
-//        $post->pos_title = $request->input('pos_title');
-//        $post->categories_id = $request->input('categories_id');
-//        $post->pos_description = $request->input('pos_description');
-//        $post->pos_telephone = $request->input('pos_telephone');
-//        $post->price = $request->input('price');
-//        $post->save();
-//        return response(array(
-//            'message' =>'post create failed',
-//        ),200);
+        }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function postDetail($id)
     {
         $post = Posts::find($id);
-//        dd($post);
         if($post){
-            return response()->json($post);
+            return response()->json(array('status' => 'success', 'posts' => $post));
         }else{
             return response(array(
                 'message' =>'No record',
@@ -176,8 +182,23 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function deletePost($id)
     {
-        //
+        $update_status = DB::table('posts')
+            ->where([
+                ['posts.id', '=', $id],
+                ['posts.pos_status', '=', 1]
+            ])
+            ->update(['posts.pos_status' => 0]);
+        if($update_status){
+            return response(array(
+                'message' =>'post deleted successfully',
+            ),200);
+        }else{
+            return response(array(
+                'message' =>'post delete failed',
+            ),200);
+        }
+
     }
 }

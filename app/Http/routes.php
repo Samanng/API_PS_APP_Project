@@ -18,22 +18,28 @@ Route::get('/', function () {
 Route::group(array('prefix'=>'users'), function(){
     Route::get('view','RegisterUserController@index');
     Route::post('register','RegisterUserController@register');
+    Route::get('userProfile/{id}','RegisterUserController@userProfile');
+    Route::get('viewUserFavorite/{id}','RegisterUserController@viewUserFavorite');
 });
 
 Route::group(array('prefix'=>'posters'), function(){
     Route::get('viewall','PostersController@index');
     Route::post('login','PostersController@login');
     Route::post('register','PostersController@register');
+    Route::get('posterProfile/{id}','PostersController@posterProfile');
+    Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');
 });
 
 Route::group(array('prefix'=>'posts'), function(){
     Route::get('viewall','PostsController@index');
-    Route::post('store','PostsController@store');
-    Route::get('show/{id}','PostsController@show');
+    Route::get('postDetail/{id}','PostsController@postDetail');
     Route::put('update/{id}','PostsController@update');
+    Route::post('createPost','PostsController@create_post');
+    Route::delete('deletePost/{id}','PostsController@deletePost');
 });
 
 Route::group(array('prefix'=>'favorites'),function(){
     Route::get('viewall','FavoritesController@index');
     Route::post('store','FavoritesController@store');
+
 });
