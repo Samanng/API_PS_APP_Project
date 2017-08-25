@@ -39,6 +39,7 @@ Route::group(array('prefix'=>'posts'), function(){
     Route::post("comment","CommentsController@commentPost");
 
     Route::get("checkLike/{userId}/{postId}","LikesController@checkLike");
+
     Route::get('show/{id}','PostsController@show');
 
     Route::get('postDetail/{id}','PostsController@postDetail');
