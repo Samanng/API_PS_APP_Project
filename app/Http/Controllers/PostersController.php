@@ -72,12 +72,12 @@ class PostersController extends Controller
     {
         $poster = DB::table('posters')
             ->join("posts", "posters.id", "=", "posts.posters_id")
-            ->select('posts.posters_id','posts.id','image','posts.pos_image','posts.pos_description')
+            ->select('*')
             ->where('posters.id',$id)->get();
         if($poster){
             return response()->json(array('status' => 'success', 'posterPost' => $poster,));
         }else{
-            return response(array('message' =>'No record',),200);
+            return response(array('status' => 'failed','message' =>'No record',),200);
         }
     }
     public function posterProfile($id)
@@ -152,20 +152,24 @@ class PostersController extends Controller
     public function updatePosterInfo(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'description' => 'required',
+            'username' => 'regex:/^[\pL\s\-]+$/u',
+            'email'=> 'email|unique:posters,email,$id',
         ]);
         if($validator->fails()){
             return response()->json(['errors'=>$validator->errors()]);//return message error
         }else{
-            $update_post = DB::table('posters')
-                ->where([
-                    ['posters.id', '=', $id],
-                ])
+
+            $update_poster_info = DB::table('posters')
+                ->where('posters.id', $id)
                 ->update([
-                'description' => $request
-                ->input('description')]);
-            return response(array( 'status' => 'success', 'message' =>'post updated successfully',
-            ),200);
+                    'username' => $request ->input('username'),
+                    'email' => $request ->input('email')
+                ]);
+            if($update_poster_info){
+                return response()->json(array('status' => 'success', 'Update successfully' => $update_poster_info,));
+            }else{
+                return response(array('status' => 'failed','message' =>'Update failed!',),200);
+            }
 
         }
     }

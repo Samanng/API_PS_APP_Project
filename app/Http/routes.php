@@ -20,13 +20,18 @@ Route::group(array('prefix'=>'users'), function(){
     Route::post('register','RegisterUserController@register');
     Route::get('userProfile/{id}','RegisterUserController@userProfile');
     Route::get('viewUserFavorite/{id}','RegisterUserController@viewUserFavorite');
+    Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
+    Route::get('sendMail','RegisterUserController@sendMail');
+    Route::get('resetForgotPass','RegisterUserController@resetForgotPass');
 });
+
 
 Route::group(array('prefix'=>'posters'), function(){
     Route::post('login','PostersController@login');
     Route::post('register','PostersController@register');
     Route::get('posterProfile/{id}','PostersController@posterProfile');
     Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');
+    Route::put('updatePosterInfo/{id}','PostersController@updatePosterInfo');
 });
 
 Route::group(array('prefix'=>'posts'), function(){
