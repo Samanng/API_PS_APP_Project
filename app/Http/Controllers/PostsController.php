@@ -166,7 +166,7 @@ class PostsController extends Controller
         if($result){
             return response()->json(array('status' => 'success', 'posts' => $result));
         }else{
-            return response()->json(array('status' => 'false'));
+            return response()->json(array('status' => 'fail'));
         }
 
 
