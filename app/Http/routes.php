@@ -16,6 +16,9 @@ Route::get('/', function () {
 });
 
 Route::group(array('prefix'=>'users'), function(){
+    Route::post('cover/{id}','RegisterUserController@changeCover');
+    Route::post('profile/{id}','RegisterUserController@profile');
+
     Route::get('view','RegisterUserController@index');
     Route::post('register','RegisterUserController@register');
     Route::get('userProfile/{id}','RegisterUserController@userProfile');
@@ -23,6 +26,9 @@ Route::group(array('prefix'=>'users'), function(){
 });
 
 Route::group(array('prefix'=>'posters'), function(){
+    Route::post('cover/{id}','PostersController@changeCover');
+    Route::post('profile/{id}','PostersController@profile');
+
     Route::post('login','PostersController@login');
     Route::post('register','PostersController@register');
     Route::get('posterProfile/{id}','PostersController@posterProfile');
@@ -37,6 +43,8 @@ Route::group(array('prefix'=>'posts'), function(){
     Route::get("listCategory/{catId}","CategoriesController@productEachCat");
 
     Route::post("comment","CommentsController@commentPost");
+    Route::get('viewcmt/{id}','CommentsController@viewComment');
+    Route::get('listcomment/{id}','CommentsController@listComment');
 
     Route::get("checkLike/{userId}/{postId}","LikesController@checkLike");
 

@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use DB;
 use Rule;
-use App\file;
+use File;
 use Illuminate\Support\Facades\Crypt;
 
 class RegisterUserController extends Controller
@@ -26,15 +26,6 @@ class RegisterUserController extends Controller
         echo "string";
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -99,38 +90,61 @@ class RegisterUserController extends Controller
         }
            }
 
+
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * This method is used to change cover of register user
+     * @author sreymom
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit($id)
-    {
-        //
+
+    public function changeCover(Request $request,$id){
+        $userID = Users::find($id);
+
+        if($request->file('covers')) {
+            File::delete('images/users/'.$userID->covers);
+
+            $image = $request->file('covers');
+            $fileName = $image->getClientOriginalName();
+            $image->move('images/users/', $fileName);
+            $userID->covers = $fileName;
+            $userID->save();
+
+            return response()->json(array('status' => 'success'));
+        }else{
+            return response()->json(array('status' => 'fail'));
+        }
+
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * This method is used to change profile image of poster
+     * @author sreymom
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
-    {
-        //
+
+    public function profile(Request $request,$id){
+
+        $userID = Users::find($id);
+        //$userID = new Users();
+
+        if($request->file('image')) {
+            File::delete('images/users/'.$userID->image);
+
+            $image = $request->file('image');
+            $fileName = $image->getClientOriginalName();
+            $image->move('images/users/', $fileName);
+            $userID->image = $fileName;
+            $userID->save();
+
+            return response()->json(array('status' => 'success'));
+        }else{
+            return response()->json(array('status' => 'fail'));
+        }
+
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
