@@ -132,8 +132,45 @@ class RegisterUserController extends Controller
             return response()->json(array(
                 'status' => 'fail','message' =>'No record', ),200);
         }
-           }
+    }
 
+    /**
+     * This method is used to update user info
+     * @author sreymom
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateUserInfo(Request $request,$id){
+
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|regex:/^[\pL\s\-]+$/u',
+            'email' => "required|email|unique:users,email,$id",
+        ]);
+
+        // Validator is true
+        if ($validator->fails()) {
+            return response()->json(array(
+                'status' => "fail",
+                'error' => $validator->errors()
+            ));
+        } else {
+
+            $data = Users::find($id);
+            if ($data) {
+                $data->username = $request->input('username');
+                $data->email = $request->input('email');
+                $data->save();
+
+                $userNewData = \DB::table('users')->select('*')->where('id','=',$id)->get();
+
+                return response()->json(array('status' => 'success', 'sms' => 'Edit successfully', 'user' => $userNewData));
+            } else {
+                return response()->json(array('status' => 'fail', 'sms' => 'Invalid id'), 404);
+            }
+        }
+
+    }
 
     /**
      * This method is used to change cover of register user

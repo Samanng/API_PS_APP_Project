@@ -23,6 +23,8 @@ Route::group(array('prefix'=>'users'), function(){
     Route::get('viewUserFavorite/{id}','RegisterUserController@viewUserFavorite');
     Route::post('cover/{id}','RegisterUserController@changeCover');
     Route::post('profile/{id}','RegisterUserController@profile');
+
+    Route::post('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
 });
 
 Route::group(array('prefix'=>'posters'), function(){
@@ -33,6 +35,8 @@ Route::group(array('prefix'=>'posters'), function(){
     Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');// Their post in their profile
     Route::post('cover/{id}','PostersController@changeCover');
     Route::post('profile/{id}','PostersController@profile');
+
+    Route::post('updateSellerInfo/{id}','PostersController@updateUserInfo');
 });
 
 Route::group(array('prefix'=>'posts'), function(){
