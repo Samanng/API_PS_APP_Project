@@ -15,6 +15,8 @@ class FavoritesController extends Controller
      */
     public function index()
     {
+
+
         //
     }
 
