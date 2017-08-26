@@ -201,6 +201,44 @@ class PostersController extends Controller
         }
     }
 
+    /**
+     * update seller info
+     * @author sreymom
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateUserInfo(Request $request,$id){
+
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|regex:/^[\pL\s\-]+$/u',
+            'email' => "required|email|unique:users,email,$id",
+        ]);
+
+        // Validator is true
+        if ($validator->fails()) {
+            return response()->json(array(
+                'status' => "fail",
+                'error' => $validator->errors()
+            ));
+        } else {
+
+            $data = Posters::find($id);
+            if ($data) {
+                $data->username = $request->input('username');
+                $data->email = $request->input('email');
+                $data->save();
+
+                $userNewData = \DB::table('posters')->select('*')->where('id','=',$id)->get();
+
+                return response()->json(array('status' => 'success', 'sms' => 'Edit successfully', 'user' => $userNewData));
+            } else {
+                return response()->json(array('status' => 'fail', 'sms' => 'Invalid id'), 404);
+            }
+        }
+
+    }
+
 
     /**
      * This method is used to change cover image of poster
