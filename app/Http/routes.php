@@ -17,21 +17,31 @@ Route::get('/', function () {
 
 Route::group(array('prefix'=>'users'), function(){
     Route::get('view','RegisterUserController@index');
+    Route::post('login','RegisterUserController@login');
     Route::post('register','RegisterUserController@register');
     Route::get('userProfile/{id}','RegisterUserController@userProfile');
     Route::get('viewUserFavorite/{id}','RegisterUserController@viewUserFavorite');
     Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
     Route::get('sendMail','RegisterUserController@sendMail');
     Route::get('resetForgotPass','RegisterUserController@resetForgotPass');
+    Route::post('cover/{id}','RegisterUserController@changeCover');
+    Route::post('profile/{id}','RegisterUserController@profile');
+    Route::post('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
 });
 
 
 Route::group(array('prefix'=>'posters'), function(){
+    Route::post('register','PostersController@register');
     Route::post('login','PostersController@login');
     Route::post('register','PostersController@register');
     Route::get('posterProfile/{id}','PostersController@posterProfile');
     Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');
     Route::put('updatePosterInfo/{id}','PostersController@updatePosterInfo');
+    Route::get('sellerProfile/{id}','PostersController@sellerProfile');
+    Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');// Their post in their profile
+    Route::post('cover/{id}','PostersController@changeCover');
+    Route::post('profile/{id}','PostersController@profile');
+    //Route::post('updateSellerInfo/{id}','PostersController@updateUserInfo');
 });
 
 Route::group(array('prefix'=>'posts'), function(){
@@ -42,14 +52,14 @@ Route::group(array('prefix'=>'posts'), function(){
     Route::get("listCategory/{catId}","CategoriesController@productEachCat");
 
     Route::post("comment","CommentsController@commentPost");
+    Route::get('viewcmt/{id}','CommentsController@viewComment');
+    Route::get('listcomment/{id}','CommentsController@listComment');
 
     Route::get("checkLike/{userId}/{postId}","LikesController@checkLike");
 
-    Route::get('show/{id}','PostsController@show');
-
     Route::get('postDetail/{id}','PostsController@postDetail');
-    Route::post('createPost','PostsController@create_post');
     Route::delete('deletePost/{id}','PostsController@deletePost');
+    Route::post('createPost','PostsController@create_post');
 
 
 });
