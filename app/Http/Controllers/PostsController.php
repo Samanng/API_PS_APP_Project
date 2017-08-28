@@ -41,38 +41,41 @@ class PostsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * This method is used to post product
+     * @author chhin
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
+
     public function create_post(Request $request)
     {
         //for validate
         $validator = Validator::make($request->all(), [
             'pos_title' => 'required',
             'pos_description' => 'required',
-            'pos_telephone'=>'required',
+            'pos_image'=>'required',
         ]);
         // if validation it not yet fill
         if ($validator->fails()) {
             return response()->json(array('status' => 'fail','errors'=>$validator->errors()));//return message error
         }else{
-            //for upload image
-            $pro_pic = $request->file('post_image');// name of input file
-            $imgPath = 'images/posts';    //create varriable for path
-            $fileName = $pro_pic->getClientOriginalName();//originalname that it was uploaded with
-            $pro_pic->move($imgPath,$fileName);
+            // file upload
+            $image = $request->file('pos_image');
+            $fileName = $image->getClientOriginalName();
+            $image->move('images/posts/', $fileName);
+
             $post = DB::table('posts')
-            ->insert(
-                    ['posts.posters_id' => $request->input('posters_id'),
-                    'posts.categories_id' => $request->input('categories_id'),
-                    'posts.pos_title' => $request->input('pos_title'),
-                    'posts.pos_description' => $request->input('pos_description'),
-                    'posts.pos_telephone' => $request->input('pos_telephone'),
-                    'posts.pos_image' => $fileName,
-                    'posts.price' => $request->input('price'),
-                    'posts.discount' => $request->input('discount')]
-                );
+            ->insert([
+                        'posts.posters_id' => $request->input('posters_id'),
+                        'posts.categories_id' => $request->input('categories_id'),
+                        'posts.pos_title' => $request->input('pos_title'),
+                        'posts.pos_description' => $request->input('pos_description'),
+                        'posts.pos_telephone' => $request->input('pos_telephone'),
+                        'posts.pos_address' => $request->input('pos_address'),
+                        'posts.pos_image' => $fileName,
+                        'posts.price' => $request->input('price'),
+                        'posts.discount' => $request->input('discount')
+                ]);
             if($post == true){
                 return response()->json(array(
                     'status' => 'success',
@@ -87,9 +90,29 @@ class PostsController extends Controller
 
         }
     }
+
+    /**
+     * This method is used to delete post
+     * @author chhin
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function postDetail($id)
     {
-        $post = Posts::find($id);
+        $post =  DB::select('
+            select 
+            (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
+            (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
+            (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
+            username,image,
+            posts.*
+            from ps_app_db.posters
+            inner join ps_app_db.posts
+            on posters.id = posts.posters_id
+            where posts.id = "'.$id.'" 
+            
+        ');
+
         if($post){
             return response()->json(array('status' => 'success', 'posts' => $post));
         }else{
@@ -100,16 +123,6 @@ class PostsController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -148,7 +161,6 @@ class PostsController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
@@ -158,10 +170,7 @@ class PostsController extends Controller
     public function deletePost($id)
     {
         $update_status = DB::table('posts')
-            ->where([
-                ['posts.id', '=', $id],
-                ['posts.pos_status', '=', 1]
-            ])
+            ->where('posts.id', '=', $id)
             ->update(['posts.pos_status' => 0]);
         if($update_status){
             return response()->json(array(
@@ -178,29 +187,36 @@ class PostsController extends Controller
     }
 
 
-//    -----------------------------------------------------mom------------------------------------------------------
     /**
      * This method is used to search post
+     * @author Sreymom
      * @param $param
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function search($param){
 
-        $result = \DB::table('posts')
-            ->select('posters.username','posts.*','posters.image' )
-            ->join('posters', 'posts.posters_id', '=', 'posters.id')
-            ->where('posts.pos_title','like',$param.'%')
-            ->orWhere('posters.username', 'like',$param.'%')
-            ->where('posts.pos_status','=',1)
-            ->get();
+        $result = \DB::select('
+        
+            select 
+            (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
+            (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
+            (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
+            username,image,
+            posts.*
+            from ps_app_db.posters
+            inner join ps_app_db.posts
+            on posters.id = posts.posters_id
+            where (posters.username like "'.$param.'%" or posts.pos_title like "'.$param.'%") and posts.pos_status = 1
+            
+        ');
 
         if($result){
             return response()->json(array('status' => 'success', 'posts' => $result));
         }else{
-            return response()->json(array('status' => 'false'));
+            return response()->json(array('status' => 'fail'));
         }
 
-    }
 
     public function uploadImage(Request $request){
         dd($request->all());
@@ -218,6 +234,25 @@ class PostsController extends Controller
             echo "You data don't have any record!";
         }
     }
+    }
+
+    //    public function search($param){
+//
+//        $result = \DB::table('posts')
+//            ->select('posters.username','posts.*','posters.image' )
+//            ->join('posters', 'posts.posters_id', '=', 'posters.id')
+//            ->where('posts.pos_title','like',$param.'%')
+//            ->orWhere('posters.username', 'like',$param.'%')
+//            ->where('posts.pos_status','=',1)
+//            ->get();
+//
+//        if($result){
+//            return response()->json(array('status' => 'success', 'posts' => $result));
+//        }else{
+//            return response()->json(array('status' => 'false'));
+//        }
+//
+//    }
 
 
 

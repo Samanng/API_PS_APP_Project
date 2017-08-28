@@ -27,6 +27,7 @@ class CategoriesController extends Controller
 
     /**
      * This method is used to list categories
+     * @author sreymom
      * @return \Illuminate\Http\JsonResponse
      */
     public function categoriesList(){
@@ -40,6 +41,7 @@ class CategoriesController extends Controller
 
     /**
      * This method is use to list all product in each category
+     * @author sreymom
      * @param $catId
      * @return \Illuminate\Http\JsonResponse
      */

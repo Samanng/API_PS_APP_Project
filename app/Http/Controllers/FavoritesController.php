@@ -16,7 +16,6 @@ class FavoritesController extends Controller
      */
     public function index()
     {
-//        echo "Hello oun";
         $get_all_poster = DB::table('favorites')
             ->join("users", "favorites.users_id", "=", "users.id")
             ->join("posts","favorites.posts_id", "=", "posts.id")
