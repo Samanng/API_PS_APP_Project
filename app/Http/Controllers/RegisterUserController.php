@@ -44,16 +44,17 @@ class RegisterUserController extends Controller
      */
     public function register(Request $request)
     {
-        ///set all field are required
-        $validator = Validator::make($request->all(), [
-            'email'    => 'required|email|unique:users',
-        ]);
-
-        //if validation = false show message error
-        if($validator->fails()){
-            return response()->json(array('status' => 'fail','errors'=>$validator->errors()));
-        }else{
+//        //set all field are required
+//        $validator = Validator::make($request->all(), [
+//            'email'    => 'required|email|unique:users',
+//        ]);
+//
+//        //if validation = false show message error
+//        if($validator->fails()){
+//            return response()->json(array('status' => 'fail','errors'=>$validator->errors()));
+//        }else{
             $photo = $request->file('image');
+            dd($photo);
             $destinationPath = 'images/users/'; // path to save to, has to exist and be writeable
             $filename = $photo->getClientOriginalName(); // original name that it was uploaded with
             $photo->move($destinationPath,$filename); // moving the file to specified dir with the original name
@@ -68,7 +69,7 @@ class RegisterUserController extends Controller
 
             //response message
             return response()->json(array('status'=> 'success','users' => $user));
-        }
+//        }
     }
 
     public function userProfile($id)

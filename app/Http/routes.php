@@ -28,6 +28,7 @@ Route::group(array('prefix'=>'posters'), function(){
     Route::post('register','PostersController@register');
     Route::get('posterProfile/{id}','PostersController@posterProfile');
     Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');
+    Route::put('changepassword/{id}','PostersController@changePassword');
 });
 
 Route::group(array('prefix'=>'posts'), function(){
@@ -42,9 +43,10 @@ Route::group(array('prefix'=>'posts'), function(){
     Route::get("checkLike/{userId}/{postId}","LikesController@checkLike");
 
     Route::get('postDetail/{id}','PostsController@postDetail');
-    Route::put('update/{id}','PostsController@update');
+    Route::put('updateInfoPost/{id}','PostsController@updateInfoPost');
     Route::post('createPost','PostsController@create_post');
     Route::delete('deletePost/{id}','PostsController@deletePost');
+    Route::post('updateImagePost','PostsController@uploadImage');
 });
 
 Route::group(array('prefix'=>'favorites'),function(){

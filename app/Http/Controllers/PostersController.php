@@ -7,7 +7,6 @@ use DB;
 use Illuminate\Http\Request;
 use App\Posters;
 use Illuminate\Foundation\Validation;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -190,6 +189,35 @@ class PostersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    /**
+     * Update the specified password poster.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(Request $request,$id){
+//        $dd = "1321654987";
+//        dd($request->input("password"));
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+        ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()]);//return message error
+        }else{
+            $update_post = DB::table('posters')
+                ->where([
+                    ['posters.id', '=', $id],
+                ])
+                ->update([
+                    'password' => sha1($request->input("password"))
+                ]);
+            return response(array( 'status' => 'success', 'message' =>'Updated Password Successfully',
+            ),200);
+
+        }
     }
 
 }
