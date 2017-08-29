@@ -60,8 +60,13 @@ class PostersController extends Controller
             $seller->password = sha1($request->input('password')); //encrypt password
             $seller->status = 1;
             $seller->save();
-            //response message
-            return response()->json(array('status'=> 'success','users' => $seller));
+            if($seller->save()){
+                return response()->json(array('status'=> 'success','users' => $seller));
+            }else{
+                //response message
+                return response()->json(array('status'=> 'failed','users' => $seller));
+            }
+
         }
     }
 
