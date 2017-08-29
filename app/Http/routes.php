@@ -42,6 +42,8 @@ Route::group(array('prefix'=>'posters'), function(){
 });
 
 Route::group(array('prefix'=>'posts'), function(){
+
+    Route::get('search/{param}','PostsController@search');
     Route::get('viewall','PostsController@index');
     Route::get('search/{param}','PostsController@search');// not complete yet
     Route::get("categories","CategoriesController@categoriesList");
