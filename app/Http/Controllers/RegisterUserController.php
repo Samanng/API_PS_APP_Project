@@ -46,10 +46,6 @@ class RegisterUserController extends Controller
         return response()->json(array('status' => 'fail','errors'=>$validator->errors()));
     }else{
 
-        //  $photo = $request->file('image');
-        // $destinationPath = 'images/users/'; // path to save to, has to exist and be writeable
-        // $filename = $photo->getClientOriginalName(); // original name that it was uploaded with
-        // $photo->move($destinationPath,$filename); // moving the file to specified dir with the original name
 
         $user = new Users();
         $user->username = $request->input('username');
@@ -137,6 +133,14 @@ class RegisterUserController extends Controller
                 'status' => 'fail','message' =>'No record', ),200);
         }
     }
+
+    /**
+     * Update user info
+     * @author chhin
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function updateUserInfo(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -191,8 +195,39 @@ class RegisterUserController extends Controller
     }
 
     /**
-     * This method is used to change profile image of poster
-     * @author sreymom
+     * Update user profile
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function profile(Request $request,$id){
+
+        $userID = Users::find($id);
+        //$userID = new Users();
+        $oldProfile = $userID->image;
+        if($request->file('image')) {
+
+            if($oldProfile != "dj.png"){
+                File::delete('images/users/'.$oldProfile);
+            }
+
+            $image = $request->file('image');
+            $fileName = $image->getClientOriginalName();
+            $image->move('images/users/', $fileName);
+            $userID->image = $fileName;
+            $userID->save();
+
+            return response()->json(array('status' => 'success'));
+        }else{
+            return response()->json(array('status' => 'fail'));
+        }
+    }
+
+
+
+    /**
+     * This method is used to sendMail
+     * @author chhin
      * @param Request $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
@@ -221,9 +256,16 @@ class RegisterUserController extends Controller
 */
             return response()->json(array('status' => 'success', 'Update successfully' => $check_email,));
         }else{
-            return response()->json(array('status' => 'failed'));
+            return response()->json(array('status' => 'fail'));
         }
     }
+
+    /**
+     * Forgot password method
+     * @author chhin
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function resetForgotPass(Request $request)
     {
         $email = $request->input('email');
@@ -242,27 +284,8 @@ class RegisterUserController extends Controller
             }
         }
     }
-    public function profile(Request $request,$id){
 
-        $userID = Users::find($id);
-        //$userID = new Users();
-        $oldProfile = $userID->image;
-        if($request->file('image')) {
-            if($oldProfile != "dj.png"){
-                File::delete('images/users/'.$oldProfile);
-            }
 
-            $image = $request->file('image');
-            $fileName = $image->getClientOriginalName();
-            $image->move('images/users/', $fileName);
-            $userID->image = $fileName;
-            $userID->save();
-
-            return response()->json(array('status' => 'success'));
-        }else{
-            return response()->json(array('status' => 'fail'));
-        }
-    }
 
     /**
      * Update the specified password poster.
@@ -271,15 +294,12 @@ class RegisterUserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function changePassword(Request $request, $id){
-//        $dd = "1321654987";
-//
-//         $pass = $request->input("password");
-//        dd($pass);
+
         $validator = Validator::make($request->all(), [
             'password' => 'required',
         ]);
         if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()]);//return message error
+            return response()->json(['status' => 'fail','errors'=>$validator->errors()]);//return message error
         }else{
         $userID = Users::find($id);
         $userID->password = sha1($request->input('password'));
@@ -288,7 +308,7 @@ class RegisterUserController extends Controller
                 return response(array( 'status' => 'success', 'message' =>'Change Password Successfully',
                 ),200);
             }else{
-                return response(array( 'status' => 'failed', 'message' =>'Change Password failed',
+                return response(array( 'status' => 'fail', 'message' =>'Change Password failed',
                 ),200);
             }
         }

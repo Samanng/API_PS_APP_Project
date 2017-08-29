@@ -284,13 +284,12 @@ class PostersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function changePassword(Request $request,$id){
-//        $dd = "1321654987";
-//        dd($request->input("password"));
+
         $validator = Validator::make($request->all(), [
             'password' => 'required',
         ]);
         if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()]);//return message error
+            return response()->json(['status' => 'fail','errors'=>$validator->errors()]);//return message error
         }else{
             $userID = Posters::find($id);
             $userID->password = sha1($request->input('password'));
@@ -299,7 +298,7 @@ class PostersController extends Controller
                 return response(array( 'status' => 'success', 'message' =>'Change Password Successfully',
                 ),200);
             }else{
-                return response(array( 'status' => 'failed', 'message' =>'Change Password failed',
+                return response(array( 'status' => 'fail', 'message' =>'Change Password failed',
                 ),200);
             }
         }
