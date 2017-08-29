@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Users;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Validation;
 use App\Http\Requests;
@@ -104,9 +105,12 @@ class RegisterUserController extends Controller
      */
     public function userProfile($id)
     {
-        $userData = Users::find($id);
-        if($userData){
-            return response()->json(array('status' => 'success', 'posterProfile' => $userData));
+
+        $users = DB::table('users')
+            ->select('*')
+            ->where('users.id',$id)->get();
+        if($users){
+            return response()->json(array('status' => 'success', 'posterProfile' => $users));
         }else{
             return response()->json(array(
                 'status' => 'fail','message' =>'No record', ),200);
@@ -133,43 +137,28 @@ class RegisterUserController extends Controller
                 'status' => 'fail','message' =>'No record', ),200);
         }
     }
-
-    /**
-     * This method is used to update user info
-     * @author sreymom
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateUserInfo(Request $request,$id){
-
+    public function updateUserInfo(Request $request, $id)
+    {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|regex:/^[\pL\s\-]+$/u',
-            'email' => "required|email|unique:users,email,$id",
+            'username' => 'regex:/^[\pL\s\-]+$/u',
+            'email'=> 'email|unique:users,email,$id',
         ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()]);//return message error
+        }else{
 
-        // Validator is true
-        if ($validator->fails()) {
-            return response()->json(array(
-                'status' => "fail",
-                'error' => $validator->errors()
-            ));
-        } else {
-
-            $data = Users::find($id);
-            if ($data) {
-                $data->username = $request->input('username');
-                $data->email = $request->input('email');
-                $data->save();
-
-                $userNewData = \DB::table('users')->select('*')->where('id','=',$id)->get();
-
-                return response()->json(array('status' => 'success', 'sms' => 'Edit successfully', 'user' => $userNewData));
-            } else {
-                return response()->json(array('status' => 'fail', 'sms' => 'Invalid id'), 404);
+            $update_users_info = DB::table('users')
+                ->where('users.id', $id)
+                ->update([
+                    'username' => $request ->input('username'),
+                    'email' => $request ->input('email')
+                ]);
+            if($update_users_info){
+                return response()->json(array('status' => 'success', 'Update successfully' => $update_users_info,));
+            }else{
+                return response(array('status' => 'failed','message' =>'Update failed!',),200);
             }
         }
-
     }
 
     /**
@@ -208,7 +197,51 @@ class RegisterUserController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-
+    public function sendMail(Request $request)
+    {
+        $email = $request->input('email');
+        $check_email = DB::table('users')->select('*')
+            ->where('email', $email)->get();
+        if($check_email>0){
+            $digits = 4;
+            $code =  rand(pow(10, $digits-1), pow(10, $digits)-1);//would produce a secret code of 4 chars.
+             $update_users_info = DB::table('users')
+                    ->where('email', $email)
+                    ->update([ 'confirmcode' => $code]);
+             if($update_users_info){
+                   return response()->json(array('status' => 'success', 'Update successfully' => $update_users_info,));
+             }else{
+                   return response(array('status' => 'failed','message' =>'Update failed!',),200);
+             }
+           /* Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message)
+            {
+                $message->from('samnang.chhorm96@gmail.com', 'Samnang');
+                $message->to('chhin1chhoeurb@gmail.com');
+            });
+*/
+            return response()->json(array('status' => 'success', 'Update successfully' => $check_email,));
+        }else{
+            return response()->json(array('status' => 'failed'));
+        }
+    }
+    public function resetForgotPass(Request $request)
+    {
+        $email = $request->input('email');
+        $pass = $request->input('password');
+        $verifyCode = $request->input('confirmcode');
+        $check_code = DB::table('users')->select('*')
+            ->where('email', $email and 'confirmcode',$verifyCode )->get();
+        if($check_code>0){
+            $reset_pass = DB::table('users')
+                ->where('email', $email)
+                ->update([ 'confirmcode' => '','password' => $pass ]);
+            if($reset_pass){
+                return response()->json(array('status' => 'success', 'Update successfully' => $reset_pass,));
+            }else{
+                return response()->json(array('status' => 'success', 'Update failed'));
+            }
+        }
+    }
     public function profile(Request $request,$id){
 
         $userID = Users::find($id);
@@ -229,7 +262,36 @@ class RegisterUserController extends Controller
         }else{
             return response()->json(array('status' => 'fail'));
         }
+    }
 
+    /**
+     * Update the specified password poster.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(Request $request, $id){
+//        $dd = "1321654987";
+//
+//         $pass = $request->input("password");
+//        dd($pass);
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+        ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()]);//return message error
+        }else{
+        $userID = Users::find($id);
+        $userID->password = sha1($request->input('password'));
+        $userID->save();
+            if($userID){
+                return response(array( 'status' => 'success', 'message' =>'Change Password Successfully',
+                ),200);
+            }else{
+                return response(array( 'status' => 'failed', 'message' =>'Change Password failed',
+                ),200);
+            }
+        }
     }
 
 }
