@@ -264,5 +264,34 @@ class RegisterUserController extends Controller
         }
     }
 
+    /**
+     * Update the specified password poster.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(Request $request, $id){
+//        $dd = "1321654987";
+//
+//         $pass = $request->input("password");
+//        dd($pass);
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+        ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()]);//return message error
+        }else{
+        $userID = Users::find($id);
+        $userID->password = sha1($request->input('password'));
+        $userID->save();
+            if($userID){
+                return response(array( 'status' => 'success', 'message' =>'Change Password Successfully',
+                ),200);
+            }else{
+                return response(array( 'status' => 'failed', 'message' =>'Change Password failed',
+                ),200);
+            }
+        }
+    }
 
 }
