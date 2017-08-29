@@ -41,7 +41,7 @@ Route::group(array('prefix'=>'posters'), function(){
 
 Route::group(array('prefix'=>'posts'), function(){
 
-    Route::get('search/{param}','PostsController@search');// not complete yet
+    Route::get('search/{param}','PostsController@search');
 
     Route::get("categories","CategoriesController@categoriesList");
     Route::get("listCategory/{catId}","CategoriesController@productEachCat");
