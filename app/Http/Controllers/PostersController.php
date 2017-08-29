@@ -7,7 +7,6 @@ use DB;
 use Illuminate\Http\Request;
 use App\Posters;
 use Illuminate\Foundation\Validation;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -28,7 +27,14 @@ class PostersController extends Controller
 
     public function index()
     {
-        echo"YES Yes yes!!!!";
+        $get_all_poster = DB::table('posters')
+            ->where('status', '=', 1)
+            ->get();
+        if($get_all_poster == true){
+            return response()->json($get_all_poster);
+        }else{
+            echo "You data don't have any record!";
+        }
     }
 
     /**
@@ -66,6 +72,7 @@ class PostersController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request){
+        dd($request);
         $validator = Validator::make($request->all(), [//check validation required
             'email' => 'required|email',
             'password' => 'required',
@@ -139,8 +146,10 @@ class PostersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function register(Request $request)
     {
+//        $til = $request->input('username');
+//        dd($til);
         ///set all field are required
         $validator = Validator::make($request->all(), [
             'email'    => 'required|email|unique:posters',
@@ -298,5 +307,33 @@ class PostersController extends Controller
 
     }
 
+
+    /**
+     * Update the specified password poster.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(Request $request,$id){
+//        $dd = "1321654987";
+//        dd($request->input("password"));
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+        ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()]);//return message error
+        }else{
+            $update_post = DB::table('posters')
+                ->where([
+                    ['posters.id', '=', $id],
+                ])
+                ->update([
+                    'password' => sha1($request->input("password"))
+                ]);
+            return response(array( 'status' => 'success', 'message' =>'Updated Password Successfully',
+            ),200);
+
+        }
+    }
 
 }
