@@ -26,17 +26,24 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $get_all_post = DB::table('posts')
-            ->join("posters", "posts.posters_id", "=", "posters.id")
-            ->join("categories","posts.categories_id", "=", "categories.id")
-            ->select('posts.id','posts.pos_title', 'posts.pos_image', 'posts.pos_description', 'posts.pos_telephone','posts.pos_address','posts.price','posts.discount','posters.username','categories.cat_name')
-            ->where('posts.pos_status', '=', 1)
-            ->orderBy('posts.id', 'desc')
-            ->get();
+        $get_all_post = DB::select('
+        
+            select 
+            (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
+            (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
+            (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
+            username,image,
+            posts.*
+            from ps_app_db.posters
+            inner join ps_app_db.posts
+            on posters.id = posts.posters_id
+            where posts.pos_status = 1
+            
+        ');
         if($get_all_post == true){
-            return response()->json($get_all_post);
+            return response()->json(array('status' => 'success','data' => $get_all_post));
         }else{
-            echo "You data don't have any record!";
+            return response()->json(array('status' => 'fail'));
         }
     }
 
@@ -158,6 +165,24 @@ class PostsController extends Controller
         }
     }
 
+
+    public function uploadImage(Request $request){
+        dd($request->all());
+        $photo = $request->file('image');
+        dd($photo);
+        $destinationPath = 'images/postUpdate/'; // path to save to, has to exist and be writeable
+        $filename = $photo->getClientOriginalName(); // original name that it was uploaded with
+        $photo->move($destinationPath,$filename); // moving the file to specified dir with the original name
+        $user = new Posts();
+        $user->image = $filename;
+        if($user == true){
+            return response()->json($user);
+        }else{
+            echo "You data don't have any record!";
+        }
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -215,26 +240,8 @@ class PostsController extends Controller
         }
     }
 
-    public function uploadImage(Request $request,$id){
-        // file upload
-        $image = $request->file('pos_image');
-        $fileName = $image->getClientOriginalName();
-        $image->move('images/updatePost/', $fileName);
 
-        $postImage = DB::table('posts')
-            ->join("posters", "posts.posters_id", "=", "posters.id")
-            ->join("categories","posts.categories_id", "=", "categories.id")
-            ->where('posts.id','=',$id)
-            ->update([
-                'posts.pos_image' => $fileName ,
-            ]);
-        if($postImage){
-            return response()->json(array('status' => 'success', 'posts' => $postImage));
-        }else{
-            return response()->json(array('status' => 'fail'));
-        }
-    }
-
+ 
 
     //    public function search($param){
 //
@@ -253,11 +260,6 @@ class PostsController extends Controller
 //        }
 //
 //    }
-
-
-
-
-
 
 
 }
