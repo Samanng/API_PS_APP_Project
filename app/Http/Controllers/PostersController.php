@@ -118,6 +118,10 @@ class PostersController extends Controller
 
     public function viewPosterPost($id)
     {
+        $poster = DB::table('posters')
+            ->join("posts", "posters.id", "=", "posts.posters_id")
+            ->select('*')
+            ->where('posters.id',$id)->get();
         $poster = DB::select('
             select 
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
@@ -131,11 +135,11 @@ class PostersController extends Controller
             where posters.id = "'.$id.'"  and posts.pos_status = 1
             
         ');
-
         if($poster){
             return response()->json(array('status' => 'success', 'posterpost' => $poster,));
         }else{
-            return response()->json(array('status' => 'fail','message' =>'No record',),200);
+            return response(array('status' => 'failed','message' =>'No record',),200);
+
         }
     }
 
@@ -153,20 +157,24 @@ class PostersController extends Controller
     public function updatePosterInfo(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'description' => 'required',
+            'username' => 'regex:/^[\pL\s\-]+$/u',
+            'email'=> 'email|unique:posters,email,$id',
         ]);
         if($validator->fails()){
             return response()->json(['errors'=>$validator->errors()]);//return message error
         }else{
-            $update_post = DB::table('posters')
-                ->where([
-                    ['posters.id', '=', $id],
-                ])
+
+            $update_poster_info = DB::table('posters')
+                ->where('posters.id', $id)
                 ->update([
-                'description' => $request
-                ->input('description')]);
-            return response(array( 'status' => 'success', 'message' =>'post updated successfully',
-            ),200);
+                    'username' => $request ->input('username'),
+                    'email' => $request ->input('email')
+                ]);
+            if($update_poster_info){
+                return response()->json(array('status' => 'success', 'Update successfully' => $update_poster_info,));
+            }else{
+                return response(array('status' => 'failed','message' =>'Update failed!',),200);
+            }
 
         }
     }

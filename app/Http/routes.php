@@ -21,11 +21,17 @@ Route::group(array('prefix'=>'users'), function(){
     Route::post('register','RegisterUserController@register');
     Route::get('userProfile/{id}','RegisterUserController@userProfile');
     Route::get('viewUserFavorite/{id}','RegisterUserController@viewUserFavorite');
+    Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
+    Route::get('sendMail','RegisterUserController@sendMail');
+    Route::get('resetForgotPass','RegisterUserController@resetForgotPass');
     Route::post('cover/{id}','RegisterUserController@changeCover');
     Route::post('profile/{id}','RegisterUserController@profile');
+
     Route::post('changepassword/{id}','RegisterUserController@changePassword');
+
     Route::post('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
 });
+
 
 Route::group(array('prefix'=>'posters'), function(){
     Route::get('viewall','PostersController@index');
@@ -34,11 +40,13 @@ Route::group(array('prefix'=>'posters'), function(){
     Route::post('changepassword/{id}','PostersController@changePassword');
     Route::post('register','PostersController@register');
     Route::post('login','PostersController@login');
-    Route::get('sellerProfile/{id}','PostersController@sellerProfile');
-    Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');// Their post in their profile
+    Route::post('register','PostersController@register');
+    Route::put('updatePosterInfo/{id}','PostersController@updatePosterInfo');
     Route::post('cover/{id}','PostersController@changeCover');
     Route::post('profile/{id}','PostersController@profile');
+
     Route::post('updateSellerInfo/{id}','PostersController@updateUserInfo');
+
 });
 
 Route::group(array('prefix'=>'posts'), function(){
@@ -53,7 +61,9 @@ Route::group(array('prefix'=>'posts'), function(){
     Route::get('listcomment/{id}','CommentsController@listComment');
     Route::get("checkLike/{userId}/{postId}","LikesController@checkLike");
     Route::get('postDetail/{id}','PostsController@postDetail');
+
     Route::post('updateInfoPost/{id}','PostsController@updateInfoPost');
+
     Route::post('createPost','PostsController@create_post');
     Route::delete('deletePost/{id}','PostsController@deletePost');
     Route::post('updateImagePost/{id}','PostsController@uploadImage');
