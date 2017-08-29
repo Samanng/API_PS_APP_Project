@@ -72,7 +72,7 @@ class PostersController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request){
-        dd($request);
+        //dd($request);
         $validator = Validator::make($request->all(), [//check validation required
             'email' => 'required|email',
             'password' => 'required',
@@ -118,6 +118,10 @@ class PostersController extends Controller
 
     public function viewPosterPost($id)
     {
+        $poster = DB::table('posters')
+            ->join("posts", "posters.id", "=", "posts.posters_id")
+            ->select('*')
+            ->where('posters.id',$id)->get();
         $poster = DB::select('
             select 
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
@@ -131,50 +135,11 @@ class PostersController extends Controller
             where posters.id = "'.$id.'"  and posts.pos_status = 1
             
         ');
-
         if($poster){
             return response()->json(array('status' => 'success', 'posterpost' => $poster,));
         }else{
-            return response()->json(array('status' => 'fail','message' =>'No record',),200);
-        }
-    }
+            return response(array('status' => 'failed','message' =>'No record',),200);
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function register(Request $request)
-    {
-//        $til = $request->input('username');
-//        dd($til);
-        ///set all field are required
-        $validator = Validator::make($request->all(), [
-            'email'    => 'required|email|unique:posters',
-        ]);
-
-        //if validation = false show message error
-        if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()]);
-        }else{
-            $photo = $request->file('image');
-            $destinationPath = 'images/posters/'; // path to save to, has to exist and be writeable
-            $filename = $photo->getClientOriginalName(); // original name that it was uploaded with
-            $photo->move($destinationPath,$filename); // moving the file to specified dir with the original name
-
-            $poster = new Posters();
-            $poster->username = $request->input('username');
-            $poster->email = $request->input('email');
-            $poster->password = sha1($request->input('password')); //encrypt password
-            $poster->image = $filename;
-            $poster->phone = $request->input('phone');
-            $poster->address = $request->input('address');
-            $poster->save();
-
-            //response message
-            return response()->json(array('status' => 'success','poster' => $poster));
         }
     }
 
@@ -192,20 +157,24 @@ class PostersController extends Controller
     public function updatePosterInfo(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'description' => 'required',
+            'username' => 'regex:/^[\pL\s\-]+$/u',
+            'email'=> 'email|unique:posters,email,$id',
         ]);
         if($validator->fails()){
             return response()->json(['errors'=>$validator->errors()]);//return message error
         }else{
-            $update_post = DB::table('posters')
-                ->where([
-                    ['posters.id', '=', $id],
-                ])
+
+            $update_poster_info = DB::table('posters')
+                ->where('posters.id', $id)
                 ->update([
-                'description' => $request
-                ->input('description')]);
-            return response(array( 'status' => 'success', 'message' =>'post updated successfully',
-            ),200);
+                    'username' => $request ->input('username'),
+                    'email' => $request ->input('email')
+                ]);
+            if($update_poster_info){
+                return response()->json(array('status' => 'success', 'Update successfully' => $update_poster_info,));
+            }else{
+                return response(array('status' => 'failed','message' =>'Update failed!',),200);
+            }
 
         }
     }
@@ -323,16 +292,16 @@ class PostersController extends Controller
         if($validator->fails()){
             return response()->json(['errors'=>$validator->errors()]);//return message error
         }else{
-            $update_post = DB::table('posters')
-                ->where([
-                    ['posters.id', '=', $id],
-                ])
-                ->update([
-                    'password' => sha1($request->input("password"))
-                ]);
-            return response(array( 'status' => 'success', 'message' =>'Updated Password Successfully',
-            ),200);
-
+            $userID = Posters::find($id);
+            $userID->password = sha1($request->input('password'));
+            $userID->save();
+            if($userID){
+                return response(array( 'status' => 'success', 'message' =>'Change Password Successfully',
+                ),200);
+            }else{
+                return response(array( 'status' => 'failed', 'message' =>'Change Password failed',
+                ),200);
+            }
         }
     }
 

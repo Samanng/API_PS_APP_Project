@@ -139,14 +139,6 @@ class PostsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateInfoPost(Request $request, $id){
-        dd($request->file('image'));
-//        $photo = uploadImage($request);
-
-//        $photo = $request->file('image');
-//        dd($photo);
-//        $destinationPath = 'images/postUpdate/'; // path to save to, has to exist and be writeable
-//        $filename = $photo->getClientOriginalName(); // original name that it was uploaded with
-//        $photo->move($destinationPath,$filename); // moving the file to specified dir with the original name
 
         $users = DB::table('posts')
             ->join("posters", "posts.posters_id", "=", "posters.id")
@@ -157,14 +149,19 @@ class PostsController extends Controller
                 'posts.pos_description' => $request->input('pos_description'),
                 'posts.pos_telephone' => $request->input('pos_telephone'),
                 'posts.pos_address' => $request->input('pos_address'),
-//                'posts.image' => uploadImage(),
                 'posts.price' => $request->input('price'),
                 'posts.discount' => $request->input('discount'),
             ]);
-        if($users == true){
-            return response()->json($users);
+        if($users){
+            return response()->json(array(
+                'status' => 'success',
+                'message' =>'Change password successfully',
+            ),200);
         }else{
-            echo "You data don't have any record!";
+            return response()->json(array(
+                'status' => 'fail',
+                'message' =>'Change password failed',
+            ),200);
         }
     }
 
@@ -244,7 +241,7 @@ class PostsController extends Controller
     }
 
 
-
+ 
 
     //    public function search($param){
 //
