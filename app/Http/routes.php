@@ -28,9 +28,12 @@ Route::group(array('prefix'=>'users'), function(){
 });
 
 Route::group(array('prefix'=>'posters'), function(){
+    Route::get('viewall','PostersController@index');
+    Route::get('posterProfile/{id}','PostersController@posterProfile');
+    Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');
+    Route::put('changepassword/{id}','PostersController@changePassword');
     Route::post('register','PostersController@register');
     Route::post('login','PostersController@login');
-    Route::post('register','PostersController@register');
     Route::get('sellerProfile/{id}','PostersController@sellerProfile');
     Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');// Their post in their profile
     Route::post('cover/{id}','PostersController@changeCover');
@@ -41,6 +44,8 @@ Route::group(array('prefix'=>'posters'), function(){
 
 Route::group(array('prefix'=>'posts'), function(){
 
+    Route::get('search/{param}','PostsController@search');
+    Route::get('viewall','PostsController@index');
     Route::get('search/{param}','PostsController@search');// not complete yet
 
     Route::get("categories","CategoriesController@categoriesList");
@@ -53,8 +58,17 @@ Route::group(array('prefix'=>'posts'), function(){
     Route::get("checkLike/{userId}/{postId}","LikesController@checkLike");
 
     Route::get('postDetail/{id}','PostsController@postDetail');
-    Route::delete('deletePost/{id}','PostsController@deletePost');
+
+    Route::put('updateInfoPost/{id}','PostsController@updateInfoPost');
     Route::post('createPost','PostsController@create_post');
+    Route::delete('deletePost/{id}','PostsController@deletePost');
+    Route::post('updateImagePost','PostsController@uploadImage');
+    });
+
+    Route::group(array('prefix'=>'favorites'),function(){
+    Route::get('viewall','FavoritesController@index');
+    Route::post('store','FavoritesController@store');
+
 
 
 });

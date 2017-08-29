@@ -1,17 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use App\Http\Controllers\Controller;
+use App\Posters;
+use App\Posts;
+use Validator;
 use App\Comments;
 use App\Likes;
-use Illuminate\Http\Request;
-
-use Illuminate\Foundation\Validation;
 use Rule;
-use Validator;
-
 use DB;
-
 use App\Http\Requests;
+use App\Users;
+use App\file;
+
 
 class PostsController extends Controller
 {
@@ -22,7 +26,18 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
+        $get_all_post = DB::table('posts')
+            ->join("posters", "posts.posters_id", "=", "posters.id")
+            ->join("categories","posts.categories_id", "=", "categories.id")
+            ->select('posts.id','posts.pos_title', 'posts.pos_image', 'posts.pos_description', 'posts.pos_telephone','posts.pos_address','posts.price','posts.discount','posters.username','categories.cat_name')
+            ->where('posts.pos_status', '=', 1)
+            ->orderBy('posts.id', 'desc')
+            ->get();
+        if($get_all_post == true){
+            return response()->json($get_all_post);
+        }else{
+            echo "You data don't have any record!";
+        }
     }
 
     /**
@@ -109,6 +124,42 @@ class PostsController extends Controller
     }
 
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateInfoPost(Request $request, $id){
+        dd($request->file('image'));
+//        $photo = uploadImage($request);
+
+//        $photo = $request->file('image');
+//        dd($photo);
+//        $destinationPath = 'images/postUpdate/'; // path to save to, has to exist and be writeable
+//        $filename = $photo->getClientOriginalName(); // original name that it was uploaded with
+//        $photo->move($destinationPath,$filename); // moving the file to specified dir with the original name
+
+        $users = DB::table('posts')
+            ->join("posters", "posts.posters_id", "=", "posters.id")
+            ->join("categories","posts.categories_id", "=", "categories.id")
+            ->where('posts.id','=',$id)
+            ->update([
+                'posts.pos_title' => $request->input('pos_title'),
+                'posts.pos_description' => $request->input('pos_description'),
+                'posts.pos_telephone' => $request->input('pos_telephone'),
+                'posts.pos_address' => $request->input('pos_address'),
+//                'posts.image' => uploadImage(),
+                'posts.price' => $request->input('price'),
+                'posts.discount' => $request->input('discount'),
+            ]);
+        if($users == true){
+            return response()->json($users);
+        }else{
+            echo "You data don't have any record!";
+        }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -167,6 +218,22 @@ class PostsController extends Controller
         }
 
 
+    public function uploadImage(Request $request){
+        dd($request->all());
+        $photo = $request->file('image');
+        dd($photo);
+        $destinationPath = 'images/postUpdate/'; // path to save to, has to exist and be writeable
+        $filename = $photo->getClientOriginalName(); // original name that it was uploaded with
+        $photo->move($destinationPath,$filename); // moving the file to specified dir with the original name
+//
+        $user = new Posts();
+        $user->image = $filename;
+        if($user == true){
+            return response()->json($user);
+        }else{
+            echo "You data don't have any record!";
+        }
+    }
     }
 
     //    public function search($param){
