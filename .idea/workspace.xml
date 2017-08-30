@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="df8aab0d-1477-4796-8999-3b26a8087cee" name="Default" comment="">
+    <list default="true" id="3da4f7f4-11bd-4b1d-aefd-8ef8c592b46c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PostersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PostersController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="API_PS_APP_Project.iws" />
@@ -28,10 +27,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RegisterUserController.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PostersController.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostersController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="66" column="68" selection-start="2031" selection-end="2031" vertical-scroll-proportion="-20.7" vertical-offset="864" max-vertical-offset="8289">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PostsController.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostsController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="10.8" vertical-offset="324" max-vertical-offset="6993">
+              <folding>
+                <marker date="1503999139119" expanded="true" signature="537:1098" placeholder="select (sele..posters..." />
+                <marker date="1503999139119" expanded="true" signature="558:639" placeholder="select count..likes..." />
+                <marker date="1503999139119" expanded="true" signature="666:756" placeholder="select count..comments..." />
+                <marker date="1503999139119" expanded="true" signature="782:875" placeholder="select count..favorites..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RegisterUserController.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="225" column="5" selection-start="6270" selection-end="7733" vertical-scroll-proportion="-5.980392" vertical-offset="3333" max-vertical-offset="5032">
+            <state line="46" column="10" selection-start="1140" selection-end="1140" vertical-scroll-proportion="0.5827338" vertical-offset="621" max-vertical-offset="8505">
               <folding />
             </state>
           </provider>
@@ -40,16 +62,7 @@
       <file leaf-file-name="routes.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="45" selection-start="1731" selection-end="1731" vertical-scroll-proportion="-20.26923" vertical-offset="0" max-vertical-offset="1258">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PostersController.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostersController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="117" column="51" selection-start="3795" selection-end="3795" vertical-scroll-proportion="-1.5468165" vertical-offset="2628" max-vertical-offset="6120">
+            <state line="51" column="25" selection-start="2141" selection-end="2141" vertical-scroll-proportion="0.0" vertical-offset="1377" max-vertical-offset="2376">
               <folding />
             </state>
           </provider>
@@ -68,9 +81,9 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/PostersController.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/PostersController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php" />
       </list>
     </option>
   </component>
@@ -79,7 +92,7 @@
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="height" value="754" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -107,6 +120,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -181,21 +195,14 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FullScreen" value="false" />
-    <property name="recentsLimit" value="5" />
   </component>
-  <component name="RunManager" selected="JavaScript Debug.RegisterUserController.php">
-    <configuration default="false" name="RegisterUserController.php" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true" temporary="true" uri="http://localhost:63343/API_PS_APP_Project/app/Http/Controllers/RegisterUserController.php">
-      <RunnerSettings RunnerId="JavascriptDebugRunner" />
-      <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
-      <method />
-    </configuration>
+  <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner />
       <method />
@@ -209,46 +216,39 @@
     <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
-    <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.RegisterUserController.php" />
-    </list>
-    <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.RegisterUserController.php" />
-      </list>
-    </recent_temporary>
+    <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="df8aab0d-1477-4796-8999-3b26a8087cee" name="Default" comment="" />
-      <created>1503894321225</created>
-      <updated>1503894321225</updated>
+      <changelist id="3da4f7f4-11bd-4b1d-aefd-8ef8c592b46c" name="Default" comment="" />
+      <created>1503882307560</created>
+      <updated>1503882307560</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="1" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20241691" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3993174" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.10180624" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2613293" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -265,70 +265,101 @@
     </option>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="7" />
-    </breakpoint-manager>
+    <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="230" column="13" selection-start="7867" selection-end="7872" vertical-scroll-proportion="0.0" vertical-offset="3910" max-vertical-offset="5117">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="33" selection-start="653" selection-end="653" vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="1377">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="294" column="37" selection-start="9490" selection-end="9490" vertical-scroll-proportion="0.0" vertical-offset="4998" max-vertical-offset="5338">
+        <state line="53" column="59" selection-start="1428" selection-end="1432" vertical-scroll-proportion="0.0" vertical-offset="1431" max-vertical-offset="8586">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="204" column="23" selection-start="6667" selection-end="6679" vertical-scroll-proportion="0.0" vertical-offset="3342" max-vertical-offset="5202">
+        <state line="52" column="67" selection-start="1343" selection-end="1343" vertical-scroll-proportion="0.0" vertical-offset="1404" max-vertical-offset="8424">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="33" selection-start="653" selection-end="653" vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="1224">
+        <state line="51" column="25" selection-start="2141" selection-end="2141" vertical-scroll-proportion="0.0" vertical-offset="1377" max-vertical-offset="2376">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="286" column="29" selection-start="9162" selection-end="9162" vertical-scroll-proportion="0.0" vertical-offset="4862" max-vertical-offset="5338">
+        <state line="59" column="85" selection-start="1722" selection-end="1722" vertical-scroll-proportion="0.0" vertical-offset="1593" max-vertical-offset="8316">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="225" column="5" selection-start="6270" selection-end="7733" vertical-scroll-proportion="-5.980392" vertical-offset="3333" max-vertical-offset="5032">
+        <state line="212" column="19" selection-start="7148" selection-end="7148" vertical-scroll-proportion="0.0" vertical-offset="5724" max-vertical-offset="7398">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="45" selection-start="1731" selection-end="1731" vertical-scroll-proportion="-20.26923" vertical-offset="0" max-vertical-offset="1258">
+        <state line="37" column="25" selection-start="1619" selection-end="1627" vertical-scroll-proportion="0.0" vertical-offset="999" max-vertical-offset="2025">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="117" column="51" selection-start="3795" selection-end="3795" vertical-scroll-proportion="-1.5468165" vertical-offset="2628" max-vertical-offset="6120">
+        <state line="136" column="11" selection-start="4562" selection-end="4562" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9531">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="212" column="19" selection-start="7148" selection-end="7148" vertical-scroll-proportion="0.0" vertical-offset="5724" max-vertical-offset="7398">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="13" selection-start="2068" selection-end="2069" vertical-scroll-proportion="0.0" vertical-offset="1242" max-vertical-offset="1782">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="25" selection-start="2141" selection-end="2141" vertical-scroll-proportion="0.0" vertical-offset="1377" max-vertical-offset="2376">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="10.8" vertical-offset="324" max-vertical-offset="6993">
+          <folding>
+            <marker date="1503999139119" expanded="true" signature="537:1098" placeholder="select (sele..posters..." />
+            <marker date="1503999139119" expanded="true" signature="558:639" placeholder="select count..likes..." />
+            <marker date="1503999139119" expanded="true" signature="666:756" placeholder="select count..comments..." />
+            <marker date="1503999139119" expanded="true" signature="782:875" placeholder="select count..favorites..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PostersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="68" selection-start="2031" selection-end="2031" vertical-scroll-proportion="-20.7" vertical-offset="864" max-vertical-offset="8289">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterUserController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="10" selection-start="1140" selection-end="1140" vertical-scroll-proportion="0.5827338" vertical-offset="621" max-vertical-offset="8505">
           <folding />
         </state>
       </provider>
