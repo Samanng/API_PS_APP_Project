@@ -21,10 +21,12 @@ Route::group(array('prefix'=>'users'), function(){
     Route::post('register','RegisterUserController@register');
     Route::get('userProfile/{id}','RegisterUserController@userProfile');
     Route::get('viewUserFavorite/{id}','RegisterUserController@viewUserFavorite');
-    Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
-    Route::get('sendMail','RegisterUserController@sendMail');
 
-    Route::get('resetForgotPass','RegisterUserController@resetForgotPass');// forgot password
+//    Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
+    Route::post('sendMail','RegisterUserController@sendMail');
+    Route::post('resetForgotPass','RegisterUserController@resetForgotPass');
+
+//     Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
 
     Route::post('cover/{id}','RegisterUserController@changeCover');
     Route::post('profile/{id}','RegisterUserController@profile');
@@ -40,7 +42,10 @@ Route::group(array('prefix'=>'posters'), function(){
     Route::get('posterProfile/{id}','PostersController@posterProfile');
     Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');
 
+    Route::post('resetForgotPass','PostersController@resetForgotPass');
+    Route::post('sendMail','PostersController@sendMail');
     Route::post('changepassword/{id}','PostersController@changePassword'); // change password
+
 
     Route::post('register','PostersController@register');
     Route::post('login','PostersController@login');
