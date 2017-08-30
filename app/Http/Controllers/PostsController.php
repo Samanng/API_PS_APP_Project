@@ -111,7 +111,7 @@ class PostsController extends Controller
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
-            username,image,
+            posters.id as posterId,username as poster,image as posterprofile,email as postermail,
             posts.*
             from ps_app_db.posters
             inner join ps_app_db.posts
