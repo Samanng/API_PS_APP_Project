@@ -49,6 +49,8 @@ class CommentsController extends Controller
         }else{return response()->json(array('status' => 'fail','errors'=>$validator->errors()));}
     }
 
+
+
     public function viewComment($posId){
 
         $result = \DB::select(  "
