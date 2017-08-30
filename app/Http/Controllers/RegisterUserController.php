@@ -45,8 +45,6 @@ class RegisterUserController extends Controller
     if($validator->fails()){
         return response()->json(array('status' => 'fail','errors'=>$validator->errors()));
     }else{
-
-
         $user = new Users();
         $user->username = $request->input('username');
         $user->email = $request->input('email');
@@ -55,7 +53,12 @@ class RegisterUserController extends Controller
         $user->status = 1;
         $user->save();
         //response message
-        return response()->json(array('status'=> 'success','users' => $user));
+        if($user->save()){
+            return response()->json(array('status'=> 'success','users' => $user));
+        }else{
+            //response message
+            return response()->json(array('status'=> 'failed'));
+        }
     }
 }
 
