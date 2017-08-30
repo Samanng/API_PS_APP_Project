@@ -61,10 +61,10 @@ class PostersController extends Controller
             $seller->status = 1;
             $seller->save();
             if($seller->save()){
-                return response()->json(array('status'=> 'success','users' => $seller));
+                return response()->json(array('status'=> 'success','posters' => $seller));
             }else{
                 //response message
-                return response()->json(array('status'=> 'failed','users' => $seller));
+                return response()->json(array('status'=> 'failed'));
             }
 
         }
