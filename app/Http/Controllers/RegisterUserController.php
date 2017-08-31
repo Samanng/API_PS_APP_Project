@@ -45,8 +45,6 @@ class RegisterUserController extends Controller
     if($validator->fails()){
         return response()->json(array('status' => 'fail','errors'=>$validator->errors()));
     }else{
-
-
         $user = new Users();
         $user->username = $request->input('username');
         $user->email = $request->input('email');
@@ -55,7 +53,12 @@ class RegisterUserController extends Controller
         $user->status = 1;
         $user->save();
         //response message
-        return response()->json(array('status'=> 'success','users' => $user));
+        if($user->save()){
+            return response()->json(array('status'=> 'success','users' => $user));
+        }else{
+            //response message
+            return response()->json(array('status'=> 'failed'));
+        }
     }
 }
 
@@ -242,7 +245,7 @@ class RegisterUserController extends Controller
             $code =  rand(pow(10, $digits-1), pow(10, $digits)-1);//would produce a secret code of 4 chars.
              $update_users_info = DB::table('users')
                     ->where('email', $email)
-                    ->update([ 'confirmcode' => $code]);
+                    ->update(['confirmcode' => $code]);
              if($update_users_info){
                    return response()->json(array('status' => 'success', 'Update successfully' => $update_users_info,));
              }else{
@@ -269,19 +272,23 @@ class RegisterUserController extends Controller
     public function resetForgotPass(Request $request)
     {
         $email = $request->input('email');
-        $pass = $request->input('password');
+        $pass = sha1($request->input('password'));
         $verifyCode = $request->input('confirmcode');
         $check_code = DB::table('users')->select('*')
-            ->where('email', $email and 'confirmcode',$verifyCode )->get();
-        if($check_code>0){
+            ->where('email','=',$email)
+            ->Where('confirmcode','=', $verifyCode)
+            ->get();
+        if($check_code){
             $reset_pass = DB::table('users')
                 ->where('email', $email)
                 ->update([ 'confirmcode' => '','password' => $pass ]);
             if($reset_pass){
                 return response()->json(array('status' => 'success', 'Update successfully' => $reset_pass,));
             }else{
-                return response()->json(array('status' => 'success', 'Update failed'));
+                return response()->json(array('status' => 'fail', 'sms'=> 'Update failed '));
             }
+        }else{
+            return response()->json(array('status' => 'fail', 'sms'=> 'Update failed of Else'));
         }
     }
 

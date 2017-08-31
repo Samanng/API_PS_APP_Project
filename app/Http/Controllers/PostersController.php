@@ -60,8 +60,13 @@ class PostersController extends Controller
             $seller->password = sha1($request->input('password')); //encrypt password
             $seller->status = 1;
             $seller->save();
-            //response message
-            return response()->json(array('status'=> 'success','users' => $seller));
+            if($seller->save()){
+                return response()->json(array('status'=> 'success','posters' => $seller));
+            }else{
+                //response message
+                return response()->json(array('status'=> 'failed'));
+            }
+
         }
     }
 
@@ -97,6 +102,63 @@ class PostersController extends Controller
                     'sms'=> 'Login not success, Please try again!!'
                 ));
             }
+        }
+    }
+
+    /**
+     * This method is used to change profile image of poster
+     * @author sreymom
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendMail(Request $request)
+    {
+        $email = $request->input('email');
+        $check_email = DB::table('posters')->select('*')
+            ->where('email', $email)->get();
+        if($check_email>0){
+            $digits = 4;
+            $code =  rand(pow(10, $digits-1), pow(10, $digits)-1);//would produce a secret code of 4 chars.
+            $update_users_info = DB::table('posters')
+                ->where('email', $email)
+                ->update(['confirmcode' => $code]);
+            if($update_users_info){
+                return response()->json(array('status' => 'success', 'Update successfully' => $update_users_info,));
+            }else{
+                return response(array('status' => 'failed','message' =>'Update failed!',),200);
+            }
+            /* Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message)
+             {
+                 $message->from('samnang.chhorm96@gmail.com', 'Samnang');
+                 $message->to('chhin1chhoeurb@gmail.com');
+             });
+ */
+            return response()->json(array('status' => 'success', 'Update successfully' => $check_email,));
+        }else{
+            return response()->json(array('status' => 'failed'));
+        }
+    }
+    public function resetForgotPass(Request $request)
+    {
+        $email = $request->input('email');
+        $pass = sha1($request->input('password'));
+        $verifyCode = $request->input('confirmcode');
+        $check_code = DB::table('posters')->select('*')
+            ->where('email','=',$email)
+            ->Where('confirmcode','=', $verifyCode)
+            ->get();
+        if($check_code){
+            $reset_pass = DB::table('posters')
+                ->where('email', $email)
+                ->update([ 'confirmcode' => '','password' => $pass ]);
+            if($reset_pass){
+                return response()->json(array('status' => 'success', 'Update successfully' => $reset_pass,));
+            }else{
+                return response()->json(array('status' => 'fail', 'sms'=> 'Update failed '));
+            }
+        }else{
+            return response()->json(array('status' => 'fail', 'sms'=> 'Update failed of Else'));
         }
     }
 
