@@ -37,16 +37,19 @@ class CommentsController extends Controller
             'message' => 'required',
         ]);
 
-        if ($validator->passes()){
+        if (!$validator->fails()){
             $cmt = new Comments();
 
             $cmt->users_id = $request->input('users_id');
             $cmt->posts_id = $request->input('posts_id');
             $cmt->message = $request->input('message');
             $cmt->save();
+
             return response()->json(array('status' => 'success'));
 
-        }else{return response()->json(array('status' => 'fail','errors'=>$validator->errors()));}
+        }else{
+            return response()->json(array('status' => 'fail','errors'=>$validator->errors()));
+        }
     }
 
 
@@ -84,10 +87,11 @@ class CommentsController extends Controller
      */
     public function listComment($postId){
 
-        $result = \DB::select(  "select users.username,users.image, comments.message,comments.created_at from comments
+        $result = \DB::select(  "select users.username as commentuser,users.image usercmtprofile, comments.message as sms,comments.created_at as cmtdate from comments
         inner join posts on comments.posts_id = posts.id
         inner join users on users.id = comments.users_id
         where comments.posts_id = $postId
+        order by comments.id asc
             
       ");
 
