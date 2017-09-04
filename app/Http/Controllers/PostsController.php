@@ -38,6 +38,7 @@ class PostsController extends Controller
             inner join ps_app_db.posts
             on posters.id = posts.posters_id
             where posts.pos_status = 1
+            order by posts.id asc
             
         ');
         if($get_all_post == true){
