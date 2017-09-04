@@ -125,7 +125,7 @@ class RegisterUserController extends Controller
     public function viewUserFavorite($id)
     {
        $user = \DB::table('favorites')
-           ->select('favorites.users_id as userId','favorites.posts_id as postId','posts.pos_image','posts.pos_title')
+           ->select('favorites.id','favorites.users_id','favorites.posts_id','posts.pos_image','posts.pos_title','posts.posters_id')
            ->join("posts", "posts.id", "=", "favorites.posts_id")
            ->where('favorites.users_id','=',$id)
            ->get();
