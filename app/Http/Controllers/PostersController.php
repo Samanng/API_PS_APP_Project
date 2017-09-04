@@ -167,7 +167,7 @@ class PostersController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sellerProfile($id)
+    public function posterProfile($id)
     {
         $userData = Posters::find($id);
         if($userData){
@@ -180,12 +180,12 @@ class PostersController extends Controller
 
     public function viewPosterPost($id)
     {
-        $poster = DB::table('posters')
-            ->join("posts", "posters.id", "=", "posts.posters_id")
-            ->select('*')
-            ->where('posters.id',$id)->get();
+//        $poster = DB::table('posters')
+//            ->join("posts", "posters.id", "=", "posts.posters_id")
+//            ->select('*')
+//            ->where('posters.id',$id)->get();
         $poster = DB::select('
-            select 
+            select
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
