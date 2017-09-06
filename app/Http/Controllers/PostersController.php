@@ -207,78 +207,51 @@ class PostersController extends Controller
 
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * This email is used to display user info in their profile
+     * @author Chhin
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit($id)
+    public function sellerOldDataUpdate($id)
     {
-        //
+
+        $users = DB::table('posters')
+            ->select('*')
+            ->where('posters.id',$id)->get();
+        if($users){
+            return response()->json(array('status' => 'success', 'sellerInfo' => $users));
+        }else{
+            return response()->json(array(
+                'status' => 'fail','message' =>'No record', ),200);
+        }
     }
     public function updatePosterInfo(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'username' => 'regex:/^[\pL\s\-]+$/u',
-            'email'=> 'email|unique:posters,email,$id',
+            'email'=> "unique:posters,email,$id",
         ]);
         if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()]);//return message error
+            return response()->json(array('status' => "existingEmail",'validate' =>$validator->errors()));//return message error
         }else{
 
-            $update_poster_info = DB::table('posters')
+            $update_users_info = DB::table('posters')
                 ->where('posters.id', $id)
                 ->update([
                     'username' => $request ->input('username'),
-                    'email' => $request ->input('email')
+                    'email' => $request ->input('email'),
+                    'phone' => $request ->input('phone'),
+                    'address' => $request->input('address')
                 ]);
-            if($update_poster_info){
-                return response()->json(array('status' => 'success', 'Update successfully' => $update_poster_info,));
+            if($update_users_info){
+                return response()->json(array('status' => 'success', 'Update successfully' => $update_users_info,));
             }else{
-                return response(array('status' => 'failed','message' =>'Update failed!',),200);
+                return response(array('status' => 'fail','message' =>'Update failed!',),200);
             }
-
         }
     }
 
-    /**
-     * update seller info
-     * @author sreymom
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateUserInfo(Request $request,$id){
-
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|regex:/^[\pL\s\-]+$/u',
-            'email' => "required|email|unique:users,email,$id",
-        ]);
-
-        // Validator is true
-        if ($validator->fails()) {
-            return response()->json(array(
-                'status' => "fail",
-                'error' => $validator->errors()
-            ));
-        } else {
-
-            $data = Posters::find($id);
-            if ($data) {
-                $data->username = $request->input('username');
-                $data->email = $request->input('email');
-                $data->save();
-
-                $userNewData = \DB::table('posters')->select('*')->where('id','=',$id)->get();
-
-                return response()->json(array('status' => 'success', 'sms' => 'Edit successfully', 'user' => $userNewData));
-            } else {
-                return response()->json(array('status' => 'fail', 'sms' => 'Invalid id'), 404);
-            }
-        }
-
-    }
-
+    
 
     /**
      * This method is used to change cover image of poster
