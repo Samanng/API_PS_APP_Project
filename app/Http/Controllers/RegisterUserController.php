@@ -148,22 +148,25 @@ class RegisterUserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'username' => 'regex:/^[\pL\s\-]+$/u',
-            'email'=> 'email|unique:users,email,$id',
+            'email'=> "unique:users,email,$id",
         ]);
         if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()]);//return message error
+            return response()->json(array('status' => "existingEmail",'validate' =>$validator->errors()));//return message error
+
         }else{
 
             $update_users_info = DB::table('users')
                 ->where('users.id', $id)
                 ->update([
                     'username' => $request ->input('username'),
-                    'email' => $request ->input('email')
+                    'email' => $request ->input('email'),
+                    'phone' => $request ->input('phone'),
+                    'address' => $request->input('address')
                 ]);
             if($update_users_info){
                 return response()->json(array('status' => 'success', 'Update successfully' => $update_users_info,));
             }else{
-                return response(array('status' => 'failed','message' =>'Update failed!',),200);
+                return response(array('status' => 'fail','message' =>'Update failed!',),200);
             }
         }
     }
