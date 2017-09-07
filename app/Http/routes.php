@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(array('prefix'=>'users'), function(){
+
     Route::get('view','RegisterUserController@index');
     Route::post('login','RegisterUserController@login');
     Route::post('register','RegisterUserController@register');
@@ -26,10 +27,11 @@ Route::group(array('prefix'=>'users'), function(){
 
     Route::post('cover/{id}','RegisterUserController@changeCover');
     Route::post('profile/{id}','RegisterUserController@profile');
-
+    Route::post('confirmUserEmail/{id}','RegisterUserController@confirmUserEmail');
     Route::post('changepassword/{id}','RegisterUserController@changePassword'); // change password
 
     Route::post('updateUserInfo/{id}','RegisterUserController@updateUserInfo');// update
+
 });
 
 
@@ -40,6 +42,8 @@ Route::group(array('prefix'=>'posters'), function(){
 
     Route::post('resetForgotPass','PostersController@resetForgotPass');
     Route::post('sendMail','PostersController@sendMail');
+
+    Route::post('confirmPosterEmail/{id}','PostersController@confirmPosterEmail');
     Route::post('changepassword/{id}','PostersController@changePassword'); // change password
 
 
@@ -79,5 +83,7 @@ Route::group(array('prefix'=>'posts'), function(){
     Route::post('store','FavoritesController@store');
 
     });
+
+
 
 
