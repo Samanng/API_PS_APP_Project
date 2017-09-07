@@ -233,6 +233,7 @@ class PostersController extends Controller
         ]);
         if($validator->fails()){
             return response()->json(array('status' => "existingEmail",'validate' =>$validator->errors()));//return message error
+
         }else{
 
             $update_users_info = DB::table('posters')
@@ -312,6 +313,34 @@ class PostersController extends Controller
     }
 
 
+
+    /**
+     * confirm email
+     * @author sreymom
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public  function confirmPosterEmail(Request $request,$id){
+
+        $result = \DB::table('posters')->select('*')->where([
+            ['email', '=', $request->input('email')],
+            ['id', '=',$id],
+        ])->get();
+        // To check if login is success or fail
+
+        if (count($result) > 0) {
+            return response()->json(array(
+                'status' => 'success',
+                'data' => $result
+            ));
+        } else {
+            return response()->json(array('status' => 'fail'));
+        }
+
+    }
+
     /**
      * Update the specified password poster.
      *
@@ -326,17 +355,25 @@ class PostersController extends Controller
         if($validator->fails()){
             return response()->json(['status' => 'fail','errors'=>$validator->errors()]);//return message error
         }else{
-            $userID = Posters::find($id);
-            $userID->password = sha1($request->input('password'));
-            $userID->save();
-            if($userID){
+
+            $currentPassword = $request->input("currentpass");
+            $newPassword = $request->input("password");
+
+            $verify = DB::select('
+                select * from posters where posters.id = "'.$id.'" and posters.password = "'.sha1($currentPassword).'"
+            ');
+
+            if(count($verify) > 0){
+                $posterID = Posters::find($id);
+                $posterID->password = sha1($newPassword);
+                $posterID->save();
                 return response(array( 'status' => 'success', 'message' =>'Change Password Successfully',
                 ),200);
             }else{
-                return response(array( 'status' => 'fail', 'message' =>'Change Password failed',
-                ),200);
+                return response(array( 'status' => 'fail', 'message' =>'Change Password failed'));
             }
         }
+
     }
 
 }

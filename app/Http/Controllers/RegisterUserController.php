@@ -295,7 +295,32 @@ class RegisterUserController extends Controller
         }
     }
 
+    /**
+     * confirm email
+     * @author sreymom
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
 
+    public  function confirmUserEmail(Request $request,$id){
+
+        $result = \DB::table('users')->select('*')->where([
+            ['email', '=', $request->input('email')],
+            ['id', '=',$id],
+        ])->get();
+        // To check if login is success or fail
+
+        if (count($result) > 0) {
+            return response()->json(array(
+                'status' => 'success',
+                'data' => $result
+            ));
+        } else {
+            return response()->json(array('status' => 'fail'));
+        }
+
+    }
 
     /**
      * Update the specified password poster.
@@ -311,15 +336,22 @@ class RegisterUserController extends Controller
         if($validator->fails()){
             return response()->json(['status' => 'fail','errors'=>$validator->errors()]);//return message error
         }else{
-        $userID = Users::find($id);
-        $userID->password = sha1($request->input('password'));
-        $userID->save();
-            if($userID){
+
+            $currentPassword = $request->input("currentpass");
+            $newPassword = $request->input("password");
+
+            $verify = DB::select('
+                select * from users where users.id = "'.$id.'" and users.password = "'.sha1($currentPassword).'"
+            ');
+
+            if(count($verify) > 0){
+                $userID = Users::find($id);
+                $userID->password = sha1($newPassword);
+                $userID->save();
                 return response(array( 'status' => 'success', 'message' =>'Change Password Successfully',
                 ),200);
             }else{
-                return response(array( 'status' => 'fail', 'message' =>'Change Password failed',
-                ),200);
+                return response(array( 'status' => 'fail', 'message' =>'Change Password failed'));
             }
         }
     }
