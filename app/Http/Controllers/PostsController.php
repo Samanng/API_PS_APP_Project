@@ -38,8 +38,9 @@ class PostsController extends Controller
             inner join ps_app_db.posts
             on posters.id = posts.posters_id
             where posts.pos_status = 1
-
-       ');
+            order by posts.id DESC 
+            
+        ');
         if($get_all_post == true){
             return response()->json(array('status' => 'success','data' => $get_all_post));
         }else{
@@ -104,7 +105,7 @@ class PostsController extends Controller
      */
     public function postDetail($id)
     {
-        $post =  DB::select('
+        $post =  DB::select("
             select 
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
@@ -114,9 +115,9 @@ class PostsController extends Controller
             from ps_app_db.posters
             inner join ps_app_db.posts
             on posters.id = posts.posters_id
-            where posts.id = "'.$id.'" 
+            where posts.id = $id
             
-        ');
+        ");
 
         if($post){
             return response()->json(array('status' => 'success', 'posts' => $post));

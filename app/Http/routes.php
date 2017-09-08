@@ -16,44 +16,41 @@ Route::get('/', function () {
 });
 
 Route::group(array('prefix'=>'users'), function(){
+
     Route::get('view','RegisterUserController@index');
     Route::post('login','RegisterUserController@login');
     Route::post('register','RegisterUserController@register');
-    Route::get('userProfile/{id}','RegisterUserController@userProfile');
+    Route::get('userProfile/{id}','RegisterUserController@userProfile');// get old value to update
     Route::get('viewUserFavorite/{id}','RegisterUserController@viewUserFavorite');
-
-//    Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
     Route::post('sendMail','RegisterUserController@sendMail');
     Route::post('resetForgotPass','RegisterUserController@resetForgotPass');
 
-//     Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
-
     Route::post('cover/{id}','RegisterUserController@changeCover');
     Route::post('profile/{id}','RegisterUserController@profile');
-
+    Route::post('confirmUserEmail/{id}','RegisterUserController@confirmUserEmail');
     Route::post('changepassword/{id}','RegisterUserController@changePassword'); // change password
 
-    Route::post('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
+    Route::post('updateUserInfo/{id}','RegisterUserController@updateUserInfo');// update
+
 });
 
 
 Route::group(array('prefix'=>'posters'), function(){
     Route::get('viewall','PostersController@index');
-    Route::get('posterProfile/{id}','PostersController@posterProfile');
+    Route::get('posterProfile/{id}','PostersController@posterProfile');// image profile
     Route::get('viewPosterPost/{id}','PostersController@viewPosterPost');
 
     Route::post('resetForgotPass','PostersController@resetForgotPass');
     Route::post('sendMail','PostersController@sendMail');
+    Route::post('confirmPosterEmail/{id}','PostersController@confirmPosterEmail');
     Route::post('changepassword/{id}','PostersController@changePassword'); // change password
-
-
     Route::post('register','PostersController@register');
     Route::post('login','PostersController@login');
-    Route::put('updatePosterInfo/{id}','PostersController@updatePosterInfo');
+    Route::post('updatePosterInfo/{id}','PostersController@updatePosterInfo');
     Route::post('cover/{id}','PostersController@changeCover');
     Route::post('profile/{id}','PostersController@profile');
 
-    Route::post('updateSellerInfo/{id}','PostersController@updateUserInfo');
+    Route::get('updateSellerInfoData/{id}','PostersController@sellerOldDataUpdate');
 
 });
 
@@ -82,5 +79,7 @@ Route::group(array('prefix'=>'posts'), function(){
     Route::post('store','FavoritesController@store');
 
     });
+
+
 
 
