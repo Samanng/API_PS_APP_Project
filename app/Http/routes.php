@@ -73,7 +73,7 @@ Route::group(array('prefix'=>'posters'), function(){
 Route::group(array('prefix'=>'posts'), function(){
 
     Route::get('search/{param}','PostsController@search');
-  
+	Route::get('viewEachCategories/{id}','PostsController@view_each_category');
     Route::get('viewAllPost','PostsController@index');
     Route::get('postDetail/{id}','PostsController@postDetail');
 
