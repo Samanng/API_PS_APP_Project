@@ -167,7 +167,7 @@ class PostersController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sellerProfile($id)
+    public function posterProfile($id)
     {
         $userData = Posters::find($id);
         if($userData){
@@ -180,12 +180,12 @@ class PostersController extends Controller
 
     public function viewPosterPost($id)
     {
-        $poster = DB::table('posters')
-            ->join("posts", "posters.id", "=", "posts.posters_id")
-            ->select('*')
-            ->where('posters.id',$id)->get();
+//        $poster = DB::table('posters')
+//            ->join("posts", "posters.id", "=", "posts.posters_id")
+//            ->select('*')
+//            ->where('posters.id',$id)->get();
         $poster = DB::select('
-            select 
+            select
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
@@ -207,78 +207,52 @@ class PostersController extends Controller
 
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * This email is used to display user info in their profile
+     * @author Chhin
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit($id)
+    public function sellerOldDataUpdate($id)
     {
-        //
+
+        $users = DB::table('posters')
+            ->select('*')
+            ->where('posters.id',$id)->get();
+        if($users){
+            return response()->json(array('status' => 'success', 'sellerInfo' => $users));
+        }else{
+            return response()->json(array(
+                'status' => 'fail','message' =>'No record', ),200);
+        }
     }
     public function updatePosterInfo(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'username' => 'regex:/^[\pL\s\-]+$/u',
-            'email'=> 'email|unique:posters,email,$id',
+            'email'=> "unique:posters,email,$id",
         ]);
         if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()]);//return message error
+            return response()->json(array('status' => "existingEmail",'validate' =>$validator->errors()));//return message error
+
         }else{
 
-            $update_poster_info = DB::table('posters')
+            $update_users_info = DB::table('posters')
                 ->where('posters.id', $id)
                 ->update([
                     'username' => $request ->input('username'),
-                    'email' => $request ->input('email')
+                    'email' => $request ->input('email'),
+                    'phone' => $request ->input('phone'),
+                    'address' => $request->input('address')
                 ]);
-            if($update_poster_info){
-                return response()->json(array('status' => 'success', 'Update successfully' => $update_poster_info,));
+            if($update_users_info){
+                return response()->json(array('status' => 'success', 'Update successfully' => $update_users_info,));
             }else{
-                return response(array('status' => 'failed','message' =>'Update failed!',),200);
+                return response(array('status' => 'fail','message' =>'Update failed!',),200);
             }
-
         }
     }
 
-    /**
-     * update seller info
-     * @author sreymom
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateUserInfo(Request $request,$id){
-
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|regex:/^[\pL\s\-]+$/u',
-            'email' => "required|email|unique:users,email,$id",
-        ]);
-
-        // Validator is true
-        if ($validator->fails()) {
-            return response()->json(array(
-                'status' => "fail",
-                'error' => $validator->errors()
-            ));
-        } else {
-
-            $data = Posters::find($id);
-            if ($data) {
-                $data->username = $request->input('username');
-                $data->email = $request->input('email');
-                $data->save();
-
-                $userNewData = \DB::table('posters')->select('*')->where('id','=',$id)->get();
-
-                return response()->json(array('status' => 'success', 'sms' => 'Edit successfully', 'user' => $userNewData));
-            } else {
-                return response()->json(array('status' => 'fail', 'sms' => 'Invalid id'), 404);
-            }
-        }
-
-    }
-
+    
 
     /**
      * This method is used to change cover image of poster
@@ -339,6 +313,34 @@ class PostersController extends Controller
     }
 
 
+
+    /**
+     * confirm email
+     * @author sreymom
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public  function confirmPosterEmail(Request $request,$id){
+
+        $result = \DB::table('posters')->select('*')->where([
+            ['email', '=', $request->input('email')],
+            ['id', '=',$id],
+        ])->get();
+        // To check if login is success or fail
+
+        if (count($result) > 0) {
+            return response()->json(array(
+                'status' => 'success',
+                'data' => $result
+            ));
+        } else {
+            return response()->json(array('status' => 'fail'));
+        }
+
+    }
+
     /**
      * Update the specified password poster.
      *
@@ -353,17 +355,25 @@ class PostersController extends Controller
         if($validator->fails()){
             return response()->json(['status' => 'fail','errors'=>$validator->errors()]);//return message error
         }else{
-            $userID = Posters::find($id);
-            $userID->password = sha1($request->input('password'));
-            $userID->save();
-            if($userID){
+
+            $currentPassword = $request->input("currentpass");
+            $newPassword = $request->input("password");
+
+            $verify = DB::select('
+                select * from posters where posters.id = "'.$id.'" and posters.password = "'.sha1($currentPassword).'"
+            ');
+
+            if(count($verify) > 0){
+                $posterID = Posters::find($id);
+                $posterID->password = sha1($newPassword);
+                $posterID->save();
                 return response(array( 'status' => 'success', 'message' =>'Change Password Successfully',
                 ),200);
             }else{
-                return response(array( 'status' => 'fail', 'message' =>'Change Password failed',
-                ),200);
+                return response(array( 'status' => 'fail', 'message' =>'Change Password failed'));
             }
         }
+
     }
 
 }
