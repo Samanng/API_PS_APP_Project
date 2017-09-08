@@ -49,7 +49,6 @@ Route::group(array('prefix'=>'posters'), function(){
 
     Route::post('register','PostersController@register');
     Route::post('login','PostersController@login');
-    Route::post('register','PostersController@register');
     Route::put('updatePosterInfo/{id}','PostersController@updatePosterInfo');
     Route::post('cover/{id}','PostersController@changeCover');
     Route::post('profile/{id}','PostersController@profile');

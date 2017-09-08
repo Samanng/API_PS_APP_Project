@@ -28,7 +28,7 @@ class PostsController extends Controller
     {
         $get_all_post = DB::select('
         
-            select 
+           select
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
@@ -38,14 +38,14 @@ class PostsController extends Controller
             inner join ps_app_db.posts
             on posters.id = posts.posters_id
             where posts.pos_status = 1
-            order by posts.id asc
-            
-        ');
+
+       ');
         if($get_all_post == true){
             return response()->json(array('status' => 'success','data' => $get_all_post));
         }else{
             return response()->json(array('status' => 'fail'));
         }
+
     }
 
     /**
@@ -61,7 +61,7 @@ class PostsController extends Controller
         $validator = Validator::make($request->all(), [
             'pos_title' => 'required',
             'pos_description' => 'required',
-            'pos_image'=>'required',
+//            'pos_image'=>'required',
         ]);
         // if validation it not yet fill
         if ($validator->fails()) {
@@ -84,11 +84,8 @@ class PostsController extends Controller
                         'posts.price' => $request->input('price'),
                         'posts.discount' => $request->input('discount')
                 ]);
-            if($post == true){
-                return response()->json(array(
-                    'status' => 'success',
-                    'message' =>'post create successfully',
-                ),200);
+            if($post){
+                return response()->json(array( 'status' => 'success', 'data' => $post ));
             }else{
                 return response()->json(array(
                     'status' => 'fail',
