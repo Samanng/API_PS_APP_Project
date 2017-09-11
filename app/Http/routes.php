@@ -51,15 +51,11 @@ Route::group(array('prefix'=>'posters'), function(){
 
     Route::post('resetForgotPass','PostersController@resetForgotPass');
     Route::post('sendMail','PostersController@sendMail');
-
     Route::post('confirmPosterEmail/{id}','PostersController@confirmPosterEmail');
     Route::post('changepassword/{id}','PostersController@changePassword'); // change password
 
-
-
     Route::post('register','PostersController@register');
     Route::post('login','PostersController@login');
-    Route::post('register','PostersController@register');
     Route::post('updatePosterInfo/{id}','PostersController@updatePosterInfo');
     Route::post('cover/{id}','PostersController@changeCover');
     Route::post('profile/{id}','PostersController@profile');
@@ -83,7 +79,7 @@ Route::group(array('prefix'=>'posts'), function(){
     Route::get('viewcmt/{id}','CommentsController@viewComment');
     Route::get('listcomment/{id}','CommentsController@listComment');
     Route::get("checkLike/{userId}/{postId}","LikesController@checkLike");
-
+    Route::get('postOldDataUpdate/{id}','PostsController@postOldDataUpdate');
     Route::post('updateInfoPost/{id}','PostsController@updateInfoPost');
 
     Route::post('createPost','PostsController@create_post');
