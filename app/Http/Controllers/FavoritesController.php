@@ -54,7 +54,7 @@ class FavoritesController extends Controller
 
     public function deleteFavorite($id){
 
-            $result = \DB::table('favorites')->where('favorites.users_id', '=', $id)->delete();
+            $result = \DB::table('favorites')->where('id', '=', $id)->delete();
             if ($result) {
                 return response()->json(array('status' => 'success', 'Message' => 'Delete successfully'));
             } else {
