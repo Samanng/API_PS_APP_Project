@@ -97,6 +97,20 @@ class PostsController extends Controller
         }
     }
 
+    public function postOldDataUpdate($id)
+    {
+
+        $posts = DB::table('posts')
+            ->select('*')
+            ->where('posts.id',$id)->get();
+        if($posts){
+            return response()->json(array('status' => 'success', 'postInfo' => $posts));
+        }else{
+            return response()->json(array(
+                'status' => 'fail','message' =>'No record', ),200);
+        }
+    }
+
     /**
      * This method is used to delete post
      * @author chhin
@@ -145,6 +159,7 @@ class PostsController extends Controller
             ->where('posts.id','=',$id)
             ->update([
                 'posts.pos_title' => $request->input('pos_title'),
+                'posts.categories_id' => $request->input('categories_id'),
                 'posts.pos_description' => $request->input('pos_description'),
                 'posts.pos_telephone' => $request->input('pos_telephone'),
                 'posts.pos_address' => $request->input('pos_address'),
@@ -154,12 +169,12 @@ class PostsController extends Controller
         if($users){
             return response()->json(array(
                 'status' => 'success',
-                'message' =>'Change password successfully',
+                'message' =>'Update post successfully',
             ),200);
         }else{
             return response()->json(array(
                 'status' => 'fail',
-                'message' =>'Change password failed',
+                'message' =>'Update post failed no record found',
             ),200);
         }
     }

@@ -67,7 +67,7 @@ Route::group(array('prefix'=>'posts'), function(){
     Route::get('viewcmt/{id}','CommentsController@viewComment');
     Route::get('listcomment/{id}','CommentsController@listComment');
     Route::get("checkLike/{userId}/{postId}","LikesController@checkLike");
-
+    Route::get('postOldDataUpdate/{id}','PostsController@postOldDataUpdate');
     Route::post('updateInfoPost/{id}','PostsController@updateInfoPost');
 
     Route::post('createPost','PostsController@create_post');
