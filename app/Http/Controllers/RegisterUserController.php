@@ -128,6 +128,7 @@ class RegisterUserController extends Controller
            ->select('favorites.id','favorites.users_id','favorites.posts_id','posts.pos_image','posts.pos_title','posts.posters_id')
            ->join("posts", "posts.id", "=", "favorites.posts_id")
            ->where('favorites.users_id','=',$id)
+           ->orderBy('favorites.id','desc')
            ->get();
         if($user){
             return response()->json(array('status' => 'success', 'users' => $user));

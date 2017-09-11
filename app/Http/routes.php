@@ -22,6 +22,15 @@ Route::group(array('prefix'=>'users'), function(){
     Route::post('register','RegisterUserController@register');
     Route::get('userProfile/{id}','RegisterUserController@userProfile');// get old value to update
     Route::get('viewUserFavorite/{id}','RegisterUserController@viewUserFavorite');
+
+
+
+//    Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
+    Route::post('sendMail','RegisterUserController@sendMail');
+    Route::post('resetForgotPass','RegisterUserController@resetForgotPass');
+
+//     Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
+
     Route::post('sendMail','RegisterUserController@sendMail');
     Route::post('resetForgotPass','RegisterUserController@resetForgotPass');
 
@@ -29,8 +38,8 @@ Route::group(array('prefix'=>'users'), function(){
     Route::post('profile/{id}','RegisterUserController@profile');
     Route::post('confirmUserEmail/{id}','RegisterUserController@confirmUserEmail');
     Route::post('changepassword/{id}','RegisterUserController@changePassword'); // change password
-
     Route::post('updateUserInfo/{id}','RegisterUserController@updateUserInfo');// update
+
 
 });
 
@@ -44,20 +53,23 @@ Route::group(array('prefix'=>'posters'), function(){
     Route::post('sendMail','PostersController@sendMail');
     Route::post('confirmPosterEmail/{id}','PostersController@confirmPosterEmail');
     Route::post('changepassword/{id}','PostersController@changePassword'); // change password
+
     Route::post('register','PostersController@register');
     Route::post('login','PostersController@login');
     Route::post('updatePosterInfo/{id}','PostersController@updatePosterInfo');
     Route::post('cover/{id}','PostersController@changeCover');
     Route::post('profile/{id}','PostersController@profile');
 
+    Route::post('updateSellerInfo/{id}','PostersController@updateUserInfo');
     Route::get('updateSellerInfoData/{id}','PostersController@sellerOldDataUpdate');
+
 
 });
 
 Route::group(array('prefix'=>'posts'), function(){
 
     Route::get('search/{param}','PostsController@search');
-  
+	Route::get('viewEachCategories/{id}','PostsController@view_each_category');
     Route::get('viewAllPost','PostsController@index');
     Route::get('postDetail/{id}','PostsController@postDetail');
 
