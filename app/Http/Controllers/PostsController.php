@@ -47,6 +47,35 @@ class PostsController extends Controller
             return response()->json(array('status' => 'fail'));
         }
     }
+	
+	   /**
+     * This method is used to view post by each categories
+     * @author never care
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+	public function view_each_category($id){
+		$get_all_post = DB::select('
+        
+            select 
+            (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
+            (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
+            (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
+            username,image,
+            posts.*
+            from ps_app_db.posters
+            inner join ps_app_db.posts
+            on posters.id = posts.posters_id
+            where posts.categories_id = "'.$id.'"
+            order by posts.id DESC 
+            
+        ');
+        if($get_all_post == true){
+            return response()->json(array('status' => 'success','data' => $get_all_post));
+        }else{
+            return response()->json(array('status' => 'fail'));
+        }
+	}
 
     /**
      * This method is used to post product
