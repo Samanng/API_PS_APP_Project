@@ -40,6 +40,8 @@ Route::group(array('prefix'=>'users'), function(){
     Route::post('changepassword/{id}','RegisterUserController@changePassword'); // change password
     Route::post('updateUserInfo/{id}','RegisterUserController@updateUserInfo');// update
 
+    Route::delete('deleteFavorite/{id}','FavoritesController@deleteFavorite');
+
 
 });
 
