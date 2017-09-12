@@ -24,8 +24,9 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($page)
     {
+        $offset = ( $page - 1)* 5;
         $get_all_post = DB::select('
         
            select
@@ -39,6 +40,7 @@ class PostsController extends Controller
             on posters.id = posts.posters_id
             where posts.pos_status = 1
             order by posts.id DESC 
+            limit 5 offset '.$offset.' 
             
         ');
         if($get_all_post == true){
@@ -69,6 +71,7 @@ class PostsController extends Controller
             on posters.id = posts.posters_id
             where posts.categories_id = "'.$id.'"
             order by posts.id DESC 
+            
             
         ');
         if($get_all_post == true){
