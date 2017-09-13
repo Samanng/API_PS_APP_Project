@@ -23,8 +23,6 @@ Route::group(array('prefix'=>'users'), function(){
     Route::get('userProfile/{id}','RegisterUserController@userProfile');// get old value to update
     Route::get('viewUserFavorite/{id}','RegisterUserController@viewUserFavorite');
 
-
-
 //    Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
     Route::post('sendMail','RegisterUserController@sendMail');
     Route::post('resetForgotPass','RegisterUserController@resetForgotPass');
