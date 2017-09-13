@@ -31,8 +31,7 @@ class PostsController extends Controller
         
            select
            
-            (select favorites.users_id from ps_app_db.favorites where favorites.posts_id = posts.id) as userSaved,
- 		 	(select likes.users_id from ps_app_db.likes where likes.posts_id = posts.id) as userLiked,
+           
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
