@@ -195,6 +195,7 @@ class PostersController extends Controller
             inner join ps_app_db.posts
             on posters.id = posts.posters_id
             where posters.id = "'.$id.'"  and posts.pos_status = 1
+            order by posts.id DESC
             
         ');
         if($poster){
@@ -225,6 +226,8 @@ class PostersController extends Controller
                 'status' => 'fail','message' =>'No record', ),200);
         }
     }
+
+    //===============update seller infortion======================================
     public function updatePosterInfo(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
