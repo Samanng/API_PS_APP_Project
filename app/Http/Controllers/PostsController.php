@@ -31,7 +31,7 @@ class PostsController extends Controller
         
            select
            
-               	likes.users_id as userLikedID,favorites.users_id as userSavedID,
+          
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
@@ -39,8 +39,7 @@ class PostsController extends Controller
             posts.*
             from ps_app_db.posters
             inner join ps_app_db.posts on posters.id = posts.posters_id
-            left join ps_app_db.likes on posts.id = likes.posts_id
-            left join ps_app_db.favorites on favorites.posts_id = posts.id
+      
             where posts.pos_status = 1
             order by posts.id DESC 
             limit 5 offset '.$offset.' 
@@ -64,7 +63,7 @@ class PostsController extends Controller
 		$get_all_post = DB::select('
            select
            
-              likes.users_id as userLikedID,favorites.users_id as userSavedID,
+           
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
@@ -72,8 +71,7 @@ class PostsController extends Controller
             posts.*
             from ps_app_db.posters
             inner join ps_app_db.posts on posters.id = posts.posters_id
-            left join ps_app_db.likes on posts.id = likes.posts_id
-            left join ps_app_db.favorites on favorites.posts_id = posts.id
+         
             where posts.categories_id = "'.$id.'"
             order by posts.id DESC 
             
@@ -270,7 +268,6 @@ class PostsController extends Controller
         
              select
            
-               	likes.users_id as userLikedID,favorites.users_id as userSavedID,
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
@@ -278,8 +275,7 @@ class PostsController extends Controller
             posts.*
             from ps_app_db.posters
             inner join ps_app_db.posts on posters.id = posts.posters_id
-            left join ps_app_db.likes on posts.id = likes.posts_id
-            left join ps_app_db.favorites on favorites.posts_id = posts.id
+          
             where (posters.username like "'.$param.'%" or posts.pos_title like "'.$param.'%") and posts.pos_status = 1
             
         ');
