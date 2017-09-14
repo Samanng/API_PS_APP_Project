@@ -269,9 +269,9 @@ class PostersController extends Controller
         $seller = Posters::find($id);
         $oldCover = $seller->covers;
         if($request->file('covers')) {
-            if($oldCover != "dj.png"){
-                File::delete('images/posters/'.$oldCover);
-            }
+//            if($oldCover != "dj.png"){
+//                File::delete('images/posters/'.$oldCover);
+//            }
             $image = $request->file('covers');
             $fileName = $image->getClientOriginalName();
             $image->move('images/posters/', $fileName);
@@ -298,9 +298,9 @@ class PostersController extends Controller
         //$userID = new Users();
         $oldProfile = $buyer->image;
         if($request->file('image')) {
-            if($oldProfile != "dj.png"){
-                File::delete('images/posters/'.$oldProfile);
-            }
+//            if($oldProfile != "dj.png"){
+//                File::delete('images/posters/'.$oldProfile);
+//            }
 
             $image = $request->file('image');
             $fileName = $image->getClientOriginalName();
