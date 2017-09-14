@@ -62,16 +62,18 @@ class PostsController extends Controller
      */
 	public function view_each_category($id){
 		$get_all_post = DB::select('
-        
-            select 
+           select
+           
+              likes.users_id as userLikedID,favorites.users_id as userSavedID,
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
             username,image,
             posts.*
             from ps_app_db.posters
-            inner join ps_app_db.posts
-            on posters.id = posts.posters_id
+            inner join ps_app_db.posts on posters.id = posts.posters_id
+            left join ps_app_db.likes on posts.id = likes.posts_id
+            left join ps_app_db.favorites on favorites.posts_id = posts.id
             where posts.categories_id = "'.$id.'"
             order by posts.id DESC 
             
@@ -152,14 +154,18 @@ class PostsController extends Controller
     public function postDetail($id)
     {
         $post =  DB::select("
-            select 
+              select
+           
+               	likes.users_id as userLikedID,favorites.users_id as userSavedID,
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
-            posters.id as posterId,username as poster,image as posterprofile,email as postermail,
+            username,image,
             posts.*
             from ps_app_db.posters
-            inner join ps_app_db.posts
+            inner join ps_app_db.posts on posters.id = posts.posters_id
+            left join ps_app_db.likes on posts.id = likes.posts_id
+            left join ps_app_db.favorites on favorites.posts_id = posts.id
             on posters.id = posts.posters_id
             where posts.id = $id
             
@@ -266,15 +272,18 @@ class PostsController extends Controller
 
         $result = \DB::select('
         
-            select 
+             select
+           
+               	likes.users_id as userLikedID,favorites.users_id as userSavedID,
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
             username,image,
             posts.*
             from ps_app_db.posters
-            inner join ps_app_db.posts
-            on posters.id = posts.posters_id
+            inner join ps_app_db.posts on posters.id = posts.posters_id
+            left join ps_app_db.likes on posts.id = likes.posts_id
+            left join ps_app_db.favorites on favorites.posts_id = posts.id
             where (posters.username like "'.$param.'%" or posts.pos_title like "'.$param.'%") and posts.pos_status = 1
             
         ');
