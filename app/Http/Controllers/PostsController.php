@@ -89,14 +89,12 @@ class PostsController extends Controller
     {
         //for validate
         $validator = Validator::make($request->all(), [
-            'pos_title' => 'required',
-            'pos_description' => 'required',
-//            'pos_image'=>'required',
+            'pos_image'=>'required',
         ]);
-        // if validation it not yet fill
-        if ($validator->fails()) {
-            return response()->json(array('status' => 'fail','errors'=>$validator->errors()));//return message error
-        }else{
+            // if validation it not yet fill
+            if ($validator->fails()) {
+                return response()->json(array('status' => 'fail','errors'=>$validator->errors()));//return message error
+            }else{
             // file upload
             $image = $request->file('pos_image');
             $fileName = $image->getClientOriginalName();
@@ -111,8 +109,7 @@ class PostsController extends Controller
                         'posts.pos_telephone' => $request->input('pos_telephone'),
                         'posts.pos_address' => $request->input('pos_address'),
                         'posts.pos_image' => $fileName,
-                        'posts.price' => $request->input('price'),
-                        'posts.discount' => $request->input('discount')
+
                 ]);
             if($post){
                 return response()->json(array( 'status' => 'success', 'data' => $post ));
