@@ -24,21 +24,26 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($page)
     {
+        $offset = ( $page - 1)* 5;
         $get_all_post = DB::select('
         
            select
+           
+               	likes.users_id as userLikedID,favorites.users_id as userSavedID,
             (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
             (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
             (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
             username,image,
             posts.*
             from ps_app_db.posters
-            inner join ps_app_db.posts
-            on posters.id = posts.posters_id
+            inner join ps_app_db.posts on posters.id = posts.posters_id
+            left join ps_app_db.likes on posts.id = likes.posts_id
+            left join ps_app_db.favorites on favorites.posts_id = posts.id
             where posts.pos_status = 1
             order by posts.id DESC 
+            limit 5 offset '.$offset.' 
             
         ');
         if($get_all_post == true){
@@ -69,6 +74,7 @@ class PostsController extends Controller
             on posters.id = posts.posters_id
             where posts.categories_id = "'.$id.'"
             order by posts.id DESC 
+            
             
         ');
         if($get_all_post == true){

@@ -184,9 +184,9 @@ class RegisterUserController extends Controller
         $userID = Users::find($id);
         $oldCover = $userID->covers;
         if($request->file('covers')) {
-            if($oldCover != "dj.png"){
-                File::delete('images/users/'.$userID->covers);
-            }
+//            if($oldCover != "dj.png"){
+//                File::delete('images/users/'.$userID->covers);
+//            }
 
             $image = $request->file('covers');
             $fileName = $image->getClientOriginalName();
@@ -214,9 +214,9 @@ class RegisterUserController extends Controller
         $oldProfile = $userID->image;
         if($request->file('image')) {
 
-            if($oldProfile != "dj.png"){
-                File::delete('images/users/'.$oldProfile);
-            }
+//            if($oldProfile != "dj.png"){
+//                File::delete('images/users/'.$oldProfile);
+//            }
 
             $image = $request->file('image');
             $fileName = $image->getClientOriginalName();

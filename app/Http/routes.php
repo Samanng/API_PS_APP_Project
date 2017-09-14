@@ -23,8 +23,6 @@ Route::group(array('prefix'=>'users'), function(){
     Route::get('userProfile/{id}','RegisterUserController@userProfile');// get old value to update
     Route::get('viewUserFavorite/{id}','RegisterUserController@viewUserFavorite');
 
-
-
 //    Route::put('updateUserInfo/{id}','RegisterUserController@updateUserInfo');
     Route::post('sendMail','RegisterUserController@sendMail');
     Route::post('resetForgotPass','RegisterUserController@resetForgotPass');
@@ -72,7 +70,7 @@ Route::group(array('prefix'=>'posts'), function(){
 
     Route::get('search/{param}','PostsController@search');
 	Route::get('viewEachCategories/{id}','PostsController@view_each_category');
-    Route::get('viewAllPost','PostsController@index');
+    Route::get('viewAllPost/{page}','PostsController@index');
     Route::get('postDetail/{id}','PostsController@postDetail');
 
     Route::get("categories","CategoriesController@categoriesList");
