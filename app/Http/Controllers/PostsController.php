@@ -29,19 +29,29 @@ class PostsController extends Controller
         $offset = ( $page - 1)* 5;
         $get_all_post = DB::select('
         
-           select
-           
-          
-            (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
-            (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
-            (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
+          select
+           L.count_like AS numlike,
+           L.users_id AS user_like_id,
+           	C.count_comment AS numcmt,
+           F.count_favorite AS numfavorite,
+           F.users_id AS user_fav_id,
             username,image,
             posts.*
-            from ps_app_db.posters
-            inner join ps_app_db.posts on posters.id = posts.posters_id
-      
+            
+	from ps_app_db.posts 
+	
+      inner join ps_app_db.posters on posters.id = posts.posters_id
+       left join 
+      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes group by posts_id) AS L
+      on L.posts_id = posts.id AND  L.posts_id = posts.id 
+       left join 
+            (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
+      on C.posts_id = posts.id AND  C.posts_id = posts.id 
+      left join (select users_id,posts_id, count(favorites.users_id) as count_favorite from ps_app_db.favorites group by posts_id) as F
+       on F.posts_id = posts.id AND  F.posts_id = posts.id 
             where posts.pos_status = 1
             order by posts.id DESC 
+          
             limit 5 offset '.$offset.' 
             
         ');
@@ -61,16 +71,27 @@ class PostsController extends Controller
      */
 	public function view_each_category($id){
 		$get_all_post = DB::select('
-           select
-           
-           
-            (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
-            (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
-            (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
+          
+          select
+           L.count_like AS numlike,
+           L.users_id AS user_like_id,
+           	C.count_comment AS numcmt,
+           F.count_favorite AS numfavorite,
+           F.users_id AS user_fav_id,
             username,image,
             posts.*
-            from ps_app_db.posters
-            inner join ps_app_db.posts on posters.id = posts.posters_id
+            
+	from ps_app_db.posts 
+	
+      inner join ps_app_db.posters on posters.id = posts.posters_id
+       left join 
+      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes group by posts_id) AS L
+      on L.posts_id = posts.id AND  L.posts_id = posts.id 
+       left join 
+            (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
+      on C.posts_id = posts.id AND  C.posts_id = posts.id 
+      left join (select users_id,posts_id, count(favorites.users_id) as count_favorite from ps_app_db.favorites group by posts_id) as F
+       on F.posts_id = posts.id AND  F.posts_id = posts.id 
          
             where posts.categories_id = "'.$id.'"
             order by posts.id DESC 
@@ -152,15 +173,27 @@ class PostsController extends Controller
     public function postDetail($id)
     {
         $post =  DB::select("
-           select
-           (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
-           (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
-           (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
-           posters.id as posterId,username as poster,image as posterprofile,email as postermail,
-           posts.*
-           from ps_app_db.posters
-           inner join ps_app_db.posts
-           on posters.id = posts.posters_id
+       
+          select
+           L.count_like AS numlike,
+           L.users_id AS user_like_id,
+           	C.count_comment AS numcmt,
+           F.count_favorite AS numfavorite,
+           F.users_id AS user_fav_id,
+            username,image,
+            posts.*
+            
+	from ps_app_db.posts 
+	
+      inner join ps_app_db.posters on posters.id = posts.posters_id
+       left join 
+      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes group by posts_id) AS L
+      on L.posts_id = posts.id AND  L.posts_id = posts.id 
+       left join 
+            (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
+      on C.posts_id = posts.id AND  C.posts_id = posts.id 
+      left join (select users_id,posts_id, count(favorites.users_id) as count_favorite from ps_app_db.favorites group by posts_id) as F
+       on F.posts_id = posts.id AND  F.posts_id = posts.id 
            where posts.id = $id
            
        ");
@@ -265,18 +298,32 @@ class PostsController extends Controller
     public function search($param){
 
         $result = \DB::select('
-        
-             select
-           
-            (select count(likes.users_id) from ps_app_db.likes where likes.posts_id = posts.id) as numlike,
-            (select count(comments.users_id) from ps_app_db.comments where comments.posts_id = posts.id) as numcmt,
-            (select count(favorites.users_id) from ps_app_db.favorites where favorites.posts_id = posts.id) as numfavorite,
+             
+          select
+           L.count_like AS numlike,
+           L.users_id AS user_like_id,
+           	C.count_comment AS numcmt,
+           F.count_favorite AS numfavorite,
+           F.users_id AS user_fav_id,
             username,image,
             posts.*
-            from ps_app_db.posters
-            inner join ps_app_db.posts on posters.id = posts.posters_id
+            
+	from ps_app_db.posts 
+	
+      inner join ps_app_db.posters on posters.id = posts.posters_id
+       left join 
+      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes group by posts_id) AS L
+      on L.posts_id = posts.id AND  L.posts_id = posts.id 
+       left join 
+            (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
+      on C.posts_id = posts.id AND  C.posts_id = posts.id 
+      left join (select users_id,posts_id, count(favorites.users_id) as count_favorite from ps_app_db.favorites group by posts_id) as F
+       on F.posts_id = posts.id AND  F.posts_id = posts.id 
+      
+         
           
-            where (posters.username like "'.$param.'%" or posts.pos_title like "'.$param.'%") and posts.pos_status = 1
+            where posts.pos_title like "'.$param.'%" and posts.pos_status = 1
+               order by posts.id DESC 
             
         ');
 
