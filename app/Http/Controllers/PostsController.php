@@ -24,45 +24,89 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($page)
+    public function index($page,$userLogin)
     {
         $offset = ( $page - 1)* 5;
-        $get_all_post = DB::select('
+
+
+        if($userLogin != 0){
+
+            $get_all_post = DB::select("
+            
+              select
+               L.count_like AS numlike,
+               L.users_id AS user_like_id,
+                C.count_comment AS numcmt,
+               F.count_favorite AS numfavorite,
+               F.users_id AS user_fav_id,
+                username,image,
+                posts.*
+                
+        from ps_app_db.posts 
         
-          select
-           L.count_like AS numlike,
-           L.users_id AS user_like_id,
-           	C.count_comment AS numcmt,
-           F.count_favorite AS numfavorite,
-           F.users_id AS user_fav_id,
-            username,image,
-            posts.*
+          inner join ps_app_db.posters on posters.id = posts.posters_id
+           left join 
+          (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes  where users_id = $userLogin   group by posts_id) AS L
+          on L.posts_id = posts.id AND  L.posts_id = posts.id 
+           left join 
+                (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
+          on C.posts_id = posts.id AND  C.posts_id = posts.id 
+          left join (select users_id,posts_id, count(favorites.users_id) as count_favorite from ps_app_db.favorites where users_id = $userLogin group by posts_id) as F
+           on F.posts_id = posts.id AND  F.posts_id = posts.id 
+                where posts.pos_status = 1
+                order by posts.id DESC 
+              
+                limit 5 offset $offset
+      		
+                
+                
+            ");
+        }else{
+
+            $get_all_post = DB::select("
             
-	from ps_app_db.posts 
-	
-      inner join ps_app_db.posters on posters.id = posts.posters_id
-       left join 
-      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes group by posts_id) AS L
-      on L.posts_id = posts.id AND  L.posts_id = posts.id 
-       left join 
-            (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
-      on C.posts_id = posts.id AND  C.posts_id = posts.id 
-      left join (select users_id,posts_id, count(favorites.users_id) as count_favorite from ps_app_db.favorites group by posts_id) as F
-       on F.posts_id = posts.id AND  F.posts_id = posts.id 
-            where posts.pos_status = 1
-            order by posts.id DESC 
-          
-            limit 5 offset '.$offset.' 
-            
-        ');
+              select
+               L.count_like AS numlike,
+               L.users_id AS user_like_id,
+                C.count_comment AS numcmt,
+               F.count_favorite AS numfavorite,
+               F.users_id AS user_fav_id,
+                username,image,
+                posts.*
+                
+        from ps_app_db.posts 
+        
+          inner join ps_app_db.posters on posters.id = posts.posters_id
+           left join 
+          (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes  group by posts_id) AS L
+          on L.posts_id = posts.id AND  L.posts_id = posts.id 
+           left join 
+                (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
+          on C.posts_id = posts.id AND  C.posts_id = posts.id 
+          left join (select users_id,posts_id, count(favorites.users_id) as count_favorite from ps_app_db.favorites group by posts_id) as F
+           on F.posts_id = posts.id AND  F.posts_id = posts.id 
+                where posts.pos_status = 1
+                order by posts.id DESC 
+              
+                limit 5 offset $offset
+      		
+                
+                
+            ");
+
+
+        }
+
+
         if($get_all_post == true){
             return response()->json(array('status' => 'success','data' => $get_all_post));
         }else{
             return response()->json(array('status' => 'fail'));
         }
+       
 
     }
-	
+
 	   /**
      * This method is used to view post by each categories
      * @author never care
