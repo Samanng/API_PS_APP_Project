@@ -39,14 +39,14 @@ class PostsController extends Controller
                 C.count_comment AS numcmt,
                F.count_favorite AS numfavorite,
                F.users_id AS user_fav_id,
-                username,image,
+                username,image,posters.email as posterEmail,
                 posts.*
                 
         from ps_app_db.posts 
         
           inner join ps_app_db.posters on posters.id = posts.posters_id
            left join 
-          (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes  where users_id = $userLogin   group by posts_id) AS L
+          (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes  where users_id = $userLogin and like_status = 1  group by posts_id) AS L
           on L.posts_id = posts.id AND  L.posts_id = posts.id 
            left join 
                 (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
@@ -71,14 +71,14 @@ class PostsController extends Controller
                 C.count_comment AS numcmt,
                F.count_favorite AS numfavorite,
                F.users_id AS user_fav_id,
-                username,image,
+                username,image,posters.email as posterEmail,
                 posts.*
                 
         from ps_app_db.posts 
         
           inner join ps_app_db.posters on posters.id = posts.posters_id
            left join 
-          (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes  group by posts_id) AS L
+          (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes where like_status = 1 group by posts_id) AS L
           on L.posts_id = posts.id AND  L.posts_id = posts.id 
            left join 
                 (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
@@ -129,7 +129,7 @@ class PostsController extends Controller
 	
       inner join ps_app_db.posters on posters.id = posts.posters_id
        left join 
-      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes group by posts_id) AS L
+      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes where like_status = 1 group by posts_id) AS L
       on L.posts_id = posts.id AND  L.posts_id = posts.id 
        left join 
             (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
@@ -226,14 +226,14 @@ class PostsController extends Controller
            	C.count_comment AS numcmt,
            F.count_favorite AS numfavorite,
            F.users_id AS user_fav_id,
-            username,image,
+            username,image,posters.email as posterEmail,
             posts.*
             
 	from ps_app_db.posts 
 	
       inner join ps_app_db.posters on posters.id = posts.posters_id
        left join 
-      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes group by posts_id) AS L
+      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes where like_status = 1 group by posts_id) AS L
       on L.posts_id = posts.id AND  L.posts_id = posts.id 
        left join 
             (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
@@ -358,7 +358,7 @@ class PostsController extends Controller
 	
       inner join ps_app_db.posters on posters.id = posts.posters_id
        left join 
-      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes group by posts_id) AS L
+      (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes where like_status = 1 group by posts_id) AS L
       on L.posts_id = posts.id AND  L.posts_id = posts.id 
        left join 
             (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
