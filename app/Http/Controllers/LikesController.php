@@ -36,8 +36,16 @@ class LikesController extends Controller
      */
     public function checkLike(Request $request,$userId,$postId){
         $like = Likes::where(array('users_id' => $userId,"posts_id" => $postId))->first();
-        if($like){
-            $like->like_status = 0 ;
+       
+
+        if(count($like) > 0){
+            $status = $like->like_status;
+           if($status == 0){
+                $status = 1;
+           }else{
+                $status = 0;
+           }
+            $like->like_status = $status ;
             $like->save();
             return response()->json(array('status' => 'success'));
         }else{
