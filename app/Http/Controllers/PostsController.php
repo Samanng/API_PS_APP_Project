@@ -78,7 +78,7 @@ class PostsController extends Controller
         
           inner join ps_app_db.posters on posters.id = posts.posters_id
            left join 
-          (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes like_status = 1 group by posts_id) AS L
+          (SELECT users_id,posts_id,count(likes.users_id) as count_like from ps_app_db.likes where like_status = 1 group by posts_id) AS L
           on L.posts_id = posts.id AND  L.posts_id = posts.id 
            left join 
                 (select posts_id, count(comments.users_id) as count_comment from ps_app_db.comments group by posts_id) AS C
