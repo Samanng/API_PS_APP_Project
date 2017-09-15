@@ -179,6 +179,8 @@ class PostsController extends Controller
                         'posts.pos_description' => $request->input('pos_description'),
                         'posts.pos_telephone' => $request->input('pos_telephone'),
                         'posts.pos_address' => $request->input('pos_address'),
+                        'posts.price' => $request->input('price'),
+                        'posts.discount' => $request->input('discount'),
                         'posts.pos_image' => $fileName,
 
                 ]);
