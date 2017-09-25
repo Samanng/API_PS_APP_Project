@@ -164,11 +164,9 @@ class RegisterUserController extends Controller
                     'phone' => $request ->input('phone'),
                     'address' => $request->input('address')
                 ]);
-            if($update_users_info){
+
                 return response()->json(array('status' => 'success', 'Update successfully' => $update_users_info,));
-            }else{
-                return response(array('status' => 'fail','message' =>'Update failed!',),200);
-            }
+
         }
     }
 
