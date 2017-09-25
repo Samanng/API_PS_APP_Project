@@ -90,7 +90,7 @@ class PostersController extends Controller
             $login = DB::select('
                 select * from posters where posters.email = "'.$email.'" and posters.password = "'.sha1($password).'"
             ');
-            if(count($login) > 0){//check is true or not
+            if($login){//check is true or not
                 return response()->json(array(
                     'status'=>"success",
                     'sms'=> 'Login successfully!!',
