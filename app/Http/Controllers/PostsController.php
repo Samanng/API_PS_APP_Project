@@ -56,7 +56,7 @@ class PostsController extends Controller
                 where posts.pos_status = 1
                 order by posts.id DESC 
               
-                limit 5 offset $offset
+                limit 10 offset $offset
       		
                 
                 
@@ -88,7 +88,7 @@ class PostsController extends Controller
                 where posts.pos_status = 1
                 order by posts.id DESC 
               
-                limit 5 offset $offset
+                limit 10 offset $offset
       		
                 
                 
