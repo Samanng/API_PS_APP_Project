@@ -368,7 +368,7 @@ class PostsController extends Controller
       
          
           
-            where posts.pos_title like "'.$param.'%" and posts.pos_status = 1
+            where posts.pos_title like "%'.$param.'%" and posts.pos_status = 1
                order by posts.id DESC 
             
         ');
